@@ -11,7 +11,6 @@ public class Program {
 
 	public static void main(String[] args) {
 
-		Exam exam = new NewlecExam();
 		//ExamConsole console = new InlineExamConsole(exam); // DI
 		//ExamConsole console = new GridExamConsole(exam);
 
@@ -32,8 +31,6 @@ public class Program {
 		
 		//ExamConsole console = (ExamConsole)context.getBean("console");
 		ExamConsole console = context.getBean(ExamConsole.class);
-		console.setExam(exam);
-		
 		
 		console.print();
 
