@@ -1,0 +1,20 @@
+spring:
+  mvc:
+   view:
+    prefix: /WEB-INF/jsp/
+    suffix: .jsp
+  
+  datasource:
+   # driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+   driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+   # url: jdbc:sqlserver://192.168.0.31:1433;instanceName=BSHOP_DATA
+   url: jdbc:log4jdbc:sqlserver://192.168.0.31:1433;instanceName=BSHOP_DATA
+   username: jayhyub7
+   password: dkagh1234.
+  
+# jsp파일 reload할때마다 재부팅해야되서 해당설정 추가해주었음.  
+server:
+ servlet:
+  jsp:
+   init-parameters:
+    development: true
