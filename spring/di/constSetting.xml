@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<!-- Exam exam = new NewlecExam(); -->
+	<bean id="exam" class="spring.di.entity.NewlecExam">
+		<constructor-arg type="int" name="kor" value="10" />
+		<constructor-arg type="int" name="eng" value="10" />
+		<constructor-arg type="int" name="math" value="10" />
+		<constructor-arg type="int" name="com" value="10" />
+	</bean>
+	
+	<bean id="exam2" class="spring.di.entity.NewlecExam">
+		<constructor-arg type="int" name="kor" value="20" />
+		<constructor-arg type="int" name="eng" value="20" />
+		<constructor-arg type="int" name="math" value="20" />
+		<constructor-arg type="int" name="com" value="20" />
+	</bean>
+
+	<!-- ExamConsole console = new GridExamConsole(); -->
+	<bean id="console" class="spring.di.ui.InlineExamConsole">
+		<!-- console.setExam(exam); -->
+		<property name="exam" ref="exam" />
+	</bean>
+
+	<!-- 첫번째 방법, constructor-arg태그에 list태그 사용 -->	
+	<bean id="exams" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="exam" />
+				<ref bean="exam2" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 두번째 방법, util 네임스페이스를 사용해서 표현 -->	
+	<util:list id="exams2" list-class="java.util.ArrayList">
+		<ref bean="exam" />
+		<ref bean="exam2" />
+	</util:list>
+	
+	
+</beans>
