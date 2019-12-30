@@ -1,17 +1,23 @@
 package spring.di.entity;
 
-public class NewlecExam implements Exam {
+import org.springframework.beans.factory.annotation.Value;
 
+public class TaesanExam implements Exam {
+
+	@Value("10")
 	private int kor;
+	@Value("20")
 	private int eng;
+	@Value("30")
 	private int math;
+	@Value("40")
 	private int com;
 	
-	public NewlecExam() {
+	public TaesanExam() {
 		
 	}
 	
-	public NewlecExam(int kor, int eng, int math, int com) {
+	public TaesanExam(int kor, int eng, int math, int com) {
 		this.kor=kor;
 		this.eng=eng;
 		this.math=math;
