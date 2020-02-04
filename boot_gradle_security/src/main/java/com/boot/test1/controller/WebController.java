@@ -26,14 +26,5 @@ public class WebController {
 		System.out.println(" DB에서 가지고온 현재시간 : " + testMapper.getCurrentTime() );
 		
 		return "index";
-	}
-	
-	@RequestMapping("/jsp")
-	public String jspCheck(Model model) {
-		System.out.println(" /jsp 타는지 ");
-		
-		model.addAttribute("name", "name 입니다.");
-		return "index";
-	}
-
+	}	
 }
