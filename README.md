@@ -5,7 +5,7 @@
 
 - <a href="https://taesan94.tistory.com/85?category=364478">[ 정리블로그 링크 ]</a>
 
-## 2. DI
+## 2. DI ( Dependency Injection )
 - 의존관계의 CLASS들의 객체 생성을 직접하지않고( new연산자 사용하지않고 ), 외부에서 대신 생성해줌으로서 코드변경 사항을 효율적으로 감소시킬 수 있다.
 
 - <a href="https://taesan94.tistory.com/86?category=364478">[ 정리블로그 링크 ]</a>
@@ -21,7 +21,7 @@
 
 - <a href="https://taesan94.tistory.com/86?category=364478">[ 정리블로그 링크 ]</a>
 
-## 4. AOP
+## 4. AOP ( Aspect Oriented Programming )
 
 - AOP를 활용하면 비즈니스로직과 이외의 로직을 분리할 수 있다.
 
