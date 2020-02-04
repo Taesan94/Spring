@@ -1,2 +1,3 @@
-boot_gradle_security/bin/main/application.yml
-
+/boot_gradle_security/bin/main/application.yml
+/boot_gradle_security/src/main/resources/application.yml
+application.yml
