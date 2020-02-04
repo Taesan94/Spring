@@ -37,3 +37,15 @@
 
 - SpringSecurity사용해보기. <a href="">[ Detail ]</a>
 
+## 삽질이력
+
+<table>
+  <tr>
+    <td>이슈 내용</td>
+    <td>조치 내용</td>
+  </tr>
+  <tr>
+    <td>servlet클래스에서 String을 return하여 [ .jsp ] 페이지로 forwarding 기대하였으나, 화면에 출력됨..</td>
+    <td><a href="https://github.com/Taesan94/Spring/issues/1">[ Detail ]</a></td>
+  </tr>
+<table>
