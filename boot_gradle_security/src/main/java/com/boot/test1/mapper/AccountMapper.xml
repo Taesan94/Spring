@@ -6,6 +6,11 @@
 		SELECT * FROM [BSHOP_DATA].dbo.USER_INFO
 		WHERE ID= #{id}
 	</select>
+	
+	<select id="readAuthorites"  parameterType="String" resultType="list">
+		SELECT AUTHORITY_NAME 
+		FROM [BSHOP_DATA].dbo.AUTHORITY WHERE USERNAME=#{userName}
+	</select>
 
 	<insert id="insertUser" parameterType="com.boot.test1.vo.Account">
 		INSERT [BSHOP_DATA].dbo.USER_INFO
@@ -26,5 +31,7 @@
 		#{authorityName}
 		)
 	</insert>
+	
+	
 
 </mapper>
