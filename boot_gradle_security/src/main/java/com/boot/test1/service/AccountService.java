@@ -113,7 +113,6 @@ public class AccountService implements UserDetailsService{
 		for ( String authority : string_authorities ) {
 			authorities.add(new SimpleGrantedAuthority(authority));
 		}
-		
 		return authorities;
 	}
 }

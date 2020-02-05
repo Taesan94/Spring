@@ -8,19 +8,24 @@ import com.boot.test1.mapper.AccountMapper;
 import com.boot.test1.mapper.TestMapper;
 
 @Controller
-public class WebController {
-	
-	@Autowired
-	TestMapper testMapper;
+public class TestController {
 	
 	@Autowired
 	AccountMapper accountMapper;
 	
-	@RequestMapping("/")
-	public String startPoint() {
-		System.out.println(" / 타는지 ");
-		System.out.println(" DB에서 가지고온 현재시간 : " + testMapper.getCurrentTime() );
-		
-		return "index";
+	@RequestMapping("/user")
+	public String user() {
+		return "userPage";
+	}
+	
+	@RequestMapping("/member")
+	public String member() {
+		return "memberPage";
 	}	
+	
+	@RequestMapping("/admin")
+	public String admin() {
+		return "adminPage";
+	}	
+	
 }
