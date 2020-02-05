@@ -58,8 +58,16 @@ public class AccountController {
 	// LOGIN SUCCESS	
 	@GetMapping("/loginSuccess")
 	@ResponseBody
-	public String loginSuccess(HttpServletRequest req) {
-		return "SUCCESS다 !";
+	public String loginSuccess() {
+		return "SUCCESS !";
 	}
+	
+	// LOGIN SUCCESS	
+	@GetMapping("/loginFail")
+	@ResponseBody
+	public String loginFail() {
+		return "Fail !";
+	}
+	
 
 }
