@@ -33,9 +33,28 @@ dependencies {
 	
 	// for Spring Security    
     compile("org.springframework.boot:spring-boot-starter-security")
-
+    
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs
+    // loginPage.jsp에서 <%@ taglib prefix="sec" ... &> 사용하기위해서 추가.
+	compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: '3.2.0.RELEASE'
+	
+	// slf4j는 Simple Logging Facade for Java (SLF4J)는 java의 로깅 모듈들의 추상체이다. 
+	// logback, log4j 같은 여러 로깅관련 모듈의 Gateway같은 역할?..  , interface..
+	// logback을 로깅 시스템으로 사용한 자바 어플리케이션이 log4j로 로깅 시스템을 바꿀 일이 있으면 의존성 설정과 파일만 조정해주면 쉽게 migration이 가능하다 !
+	// 아하.. 그래서 log쓸때 import를 slf4j로 했구나..
+	// https://engkimbs.tistory.com/861 참조
+	
+	// 로깅처리를 logback에서 > log4j2로 변경하고싶어서 추가 함
+	// https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1
+	compile group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.16'
+	
+	// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+	// log4j2만 추가했더니 , SLF4J: Failed to load class “org.slf4j.impl.StaticLoggerBinder” 에러나서 추가하니깐 괜찮아짐.
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+	
 	
 }
+
 
 test {
 	useJUnitPlatform()

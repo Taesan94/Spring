@@ -23,9 +23,19 @@ public class TestController {
 		return "memberPage";
 	}	
 	
+	@RequestMapping("/accessDenied_page")
+	public String accessDenied() {
+		return "accessDenied_page";
+	}
+	
 	@RequestMapping("/admin")
 	public String admin() {
 		return "adminPage";
+	}	
+	
+	@RequestMapping("/logout")
+	public String logout() {
+		return "logout";
 	}	
 	
 }
