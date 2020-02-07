@@ -22,14 +22,11 @@ public class AccountRepository {
 	}
 
 	public Account findById(String username) {
-		System.out.println("############### findById ###############");
 		return accountMapper.readAccount(username);
 	}
 
 	public List<String>findauthoritiesbyid(String username){
-		System.out.println("############### findauthoritiesbyid ###############");
 		return (List<String>)accountMapper.readAuthorites(username);
 	}
-
 
 }
