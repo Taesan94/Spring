@@ -2,8 +2,9 @@ package com.boot.test1.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,9 @@ public class AccountController {
 	@Autowired
 	AccountMapper accountMapper;
 	
-	// ADMIN 계정 부여
+	Logger log = LoggerFactory.getLogger(this.getClass());
+	
+	// ADMIN 계정 부여, 수동으로 계정등록.. 계정정보 하드코딩해서..
 	@RequestMapping("/create")
 	public Account create() {
 		
@@ -40,7 +43,7 @@ public class AccountController {
 		authority.setUserName(adminId);
 		authority.setAuthorityName("ROLE_ADMIN");
 		
-		accountService.save(account, authority);
+		// accountService.save(account, authority);
 		
 		return account;
 	}
@@ -49,7 +52,7 @@ public class AccountController {
 	@RequestMapping(value = "/login", method=RequestMethod.GET )
 	public String login(Model model, HttpServletRequest req) {
 		
-		System.out.println("### /login 입니다 ");
+		log.info("### /login 입니다 ");
 		
 		model.addAttribute( "message", req.getServletContext() );
 		
