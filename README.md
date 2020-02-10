@@ -35,7 +35,14 @@
 
 ## 5. 스프링 활용하기
 
-- SpringSecurity사용해보기. <a href="">[ Detail ]</a>
+### 1) SpringSecurity
+
+- 스프링 시큐리티는 스프링 기반의 어플리케이션의 보안(인증과 권한)을 담당하는 프레임워크.
+- 스프링 시큐리티는 보안과 관련해서 체계적으로 많은 옵션들로 이를 지원해줌.
+- Spring Security는 filter 기반으로 동작하기 때문에 spring MVC 와 분리되어 관리 및 동작한다.
+- <a href="https://sjh836.tistory.com/165">[ 참조1 ] , <a href="https://velog.io/@jayjay28/2019-09-04-1109-%EC%9E%91%EC%84%B1%EB%90%A8">[ 참조2 ]</a></a>
+- SpringSecurity 따라해보기 <a href="https://taesan94.tistory.com/category/Library%20%26%20Framework/SpringSecurity">[ 링크 ]</a>
+
 
 ## 삽질이력
 
