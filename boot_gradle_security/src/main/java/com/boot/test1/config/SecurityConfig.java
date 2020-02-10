@@ -1,8 +1,11 @@
 package com.boot.test1.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
@@ -21,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 						.loginPage("/login") // 로그인이 수행될 경로.
 						.loginProcessingUrl("/loginProcess")// 로그인form의  action과 일치시켜주어야 함.
 						.defaultSuccessUrl("/loginSuccess") // 로그인 성공 시 이동할 경로.
+						.failureUrl("/login?error=true") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸
 				.permitAll()
 				.and()
 			 .logout()
@@ -31,5 +35,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			 .exceptionHandling()
 			 	.accessDeniedPage("/accessDenied_page");		
 	}
+	
+	/*
+	@Bean
+	public PasswordEncoder noOpPasswordEncoder(){
+		return NoOpPasswordEncoder.getInstance();
+	}
+	*/
+	
+	  @Bean
+	  public static PasswordEncoder passwordEncoder() {
+	    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	  }
+
 	
 }
