@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			 	.logoutSuccessUrl("/")
 			 	.and()
 			 .exceptionHandling()
-			 	.accessDeniedPage("/accessDenied_page");		
+			 	.accessDeniedPage("/accessDenied_page"); // 권한이 없는 대상이 접속을시도했을 때
 	}
 	
 	/*
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	*/
 	
 	  @Bean
-	  public static PasswordEncoder passwordEncoder() {
+	  public PasswordEncoder passwordEncoder() {
 	    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	  }
 

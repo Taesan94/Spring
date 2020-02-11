@@ -6,10 +6,33 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder"%>
 <%@ page import="org.springframework.security.core.Authentication"%>
 
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="org.springframework.security.core.Authentication" %>
+<%@ page import="com.boot.test1.vo.Account" %>
+
+<%
+	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+	Object principal = auth.getPrincipal();
+	String name = "";
+	
+	if ( principal instanceof Account ) System.out.println(" Accout 객체 맞음 !! ");
+	else System.out.println(" Accout 객체 아님.. " + principal.getClass().toString());
+	
+	if ( principal != null && principal instanceof Account ){
+		name = ((Account)principal).getUsername();
+		System.out.println(" Account에서 가지고온 이름 ! : " + name);
+	}else {
+		name = (String)principal ;
+		System.out.println(" 그냥 String.. ㅜㅜ : " + name);
+	}
+%>
+
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 </head>
@@ -46,9 +69,12 @@
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> <br>
 
 							<sec:authorize access="isAuthenticated()">
+							
+							
 								<div class="form-group" align="center">
 									<h5>
-										<sec:authentication property="principal.username" />님, 반갑습니다.
+ 	 										<%=name%> 님, 반갑습니다. 
+									<%--<sec:authentication property="principal.username" />님, 겁나 반갑습니다. --%>
 									</h5>
 									<br>
 									<sec:authorize access="isAuthenticated()">
@@ -59,6 +85,7 @@
 									</sec:authorize>
 								</div>
 							</sec:authorize>
+							
 
 						</form>
 					</div>
