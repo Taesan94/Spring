@@ -17,7 +17,7 @@ public class PassWordEncoderTest {
 		// 이렇게쓰면 기본으로 bcrypt형식으로 암호화 되는구나..
 		passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-		String password = "password";
+		String password = "1234";
 		String encPassword = passwordEncoder.encode(password);
 
 		System.out.println(" password : " + password );
