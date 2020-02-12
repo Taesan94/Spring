@@ -1,14 +1,26 @@
 package com.boot.test1.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import com.boot.test1.handler.CustomAuthenticationFailureHandler;
+import com.boot.test1.handler.CustomAuthenticationSuccessHandler;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	@Autowired
+	private AuthenticationSuccessHandler successHandler;
+	
+	@Autowired
+	private AuthenticationFailureHandler failureHandler;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
@@ -24,7 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 						.loginPage("/login") // 로그인이 수행될 경로.
 						.loginProcessingUrl("/loginProcess")// 로그인form의  action과 일치시켜주어야 함.
 						.defaultSuccessUrl("/loginSuccess") // 로그인 성공 시 이동할 경로.
-						.failureUrl("/login?error=true") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸
+						//.failureUrl("/login?error=true") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸다.
+						.successHandler(successHandler)
+						.failureHandler(failureHandler)
 				.permitAll()
 				.and()
 			 .logout()
@@ -47,6 +61,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	  public PasswordEncoder passwordEncoder() {
 	    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	  }
-
+	  
+	  // 로그인 성공 처리를 위한 Handler
+	  @Bean
+	  public AuthenticationSuccessHandler successHandler() {
+	      return new CustomAuthenticationSuccessHandler("loginRedirect", "/login", false);
+	  }
+	  
+	  // 실패 처리를 위한 Handler
+	  @Bean
+	  public AuthenticationFailureHandler failureHandler() {
+		  return new CustomAuthenticationFailureHandler("username", "password" , "loginRedirect" , "securityExceptionMsg" , "/login?fail=true");
+	  }
 	
 }
