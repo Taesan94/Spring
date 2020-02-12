@@ -8,6 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -28,8 +32,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		log.info("### authenticate ### ");
 
 		String username = (String) authentication.getPrincipal();
+		String password = (String) authentication.getCredentials();
+		String passwordEnc = passwordEncoder.encode(password);
 		
 		Account account = (Account) accountService.loadUserByUsername(username);
+		
+		// pw같은지 검증.
+		if ( !passwordEncoder.matches(password,account.getPassword())) {
+			throw new BadCredentialsException(username);
+		}
 
 		return new UsernamePasswordAuthenticationToken(account, account, account.getAuthorities());
 	}
