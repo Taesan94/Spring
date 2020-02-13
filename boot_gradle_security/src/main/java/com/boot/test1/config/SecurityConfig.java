@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	  // 실패 처리를 위한 Handler
 	  @Bean
 	  public AuthenticationFailureHandler failureHandler() {
-		  return new CustomAuthenticationFailureHandler("username", "password" , "loginRedirect" , "securityExceptionMsg" , "/login?fail=true");
+		  return new CustomAuthenticationFailureHandler("username", "password" , "loginRedirect" , "exceptionMsgName" , "/login?fail=true");
 	  }
 	
 }

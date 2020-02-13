@@ -57,15 +57,16 @@
 							</div>
 							<button name="submit" type="submit" class="btn btn-block btn-primary text-light">로그인</button>
 
-							<c:if test="${not empty securityExceptionMsg}">
-							<%--<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">  --%>
+							<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
 								<font color="red">
-									<p>Your login attempt was not successful, try again</p>
-									<p>${securityExceptionMsg}</p> 
-									<%--<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session" />  --%>
+									<p>
+										Your login attempt was not successful due to <br /> 
+										${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+									</p> 
+									<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session" />
 								</font>
 							</c:if>
-							<input type="hidden" name="loginRedirect" value="${loginRedirect}" />
+							
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> <br>
 
 							<sec:authorize access="isAuthenticated()">

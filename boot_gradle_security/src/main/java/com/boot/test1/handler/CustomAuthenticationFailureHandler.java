@@ -6,6 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -16,6 +18,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	private String loginRedirectName ;
 	private String exceptionMsgName ;
 	private String defaultFailureUrl ;
+	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	public CustomAuthenticationFailureHandler(String loginIdName, String loginPasswordName, String loginRedirectName,
 			String exceptionMsgName, String defaultFailureUrl) {
@@ -61,15 +65,21 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 		
+		log.info("######### onAuthenticationFailure #########");
+		
 		String loginId = request.getParameter(loginIdName);
 		String loginPw = request.getParameter(loginPasswordName);
 		String loginRedirect = request.getParameter(loginRedirectName);
+		
+		log.info("loginId : " + loginId +", loginPw : " + loginPw +", loginRedirect : " + loginRedirect + ", exceptionMsgName : " + exceptionMsgName + ", defaultFailureUrl : " + defaultFailureUrl) ;
 		
 		request.setAttribute(loginIdName, loginId);
 		request.setAttribute(loginPasswordName, loginPw);
 		request.setAttribute(loginRedirectName, loginRedirect);
 		
 		request.setAttribute(exceptionMsgName, exception.getMessage());
+		
+		log.info(" exception.getMessage() : " + exception.getMessage() );
 		
 		request.getRequestDispatcher(defaultFailureUrl).forward(request, response);
 	}

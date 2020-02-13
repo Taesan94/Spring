@@ -74,6 +74,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		
+		log.info("######### onAuthenticationSuccess #########");
+		
 		clearAuthenticationAttributes(request);
 		
 		int intRedirectStrategy = decideRedirectStrategy(request,response);
