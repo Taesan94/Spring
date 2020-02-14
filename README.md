@@ -55,4 +55,8 @@
     <td>servlet클래스에서 String을 return하여 [ .jsp ] 페이지로 forwarding 기대하였으나, 화면에 출력됨..</td>
     <td><a href="https://github.com/Taesan94/Spring/issues/1">[ Detail ]</a></td>
   </tr>
+  <tr>
+    <td>로그인 에러메시지 Security의 Session > request.Attribute방식으로 바꾸던 중 화면에 데이터출력 오류</td>
+    <td><a href="https://github.com/Taesan94/Spring/issues/2">[ Detail ]</a></td>
+  </tr>
 <table>
