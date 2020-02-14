@@ -33,7 +33,6 @@ public class AccountService implements UserDetailsService{
 		Account account = accounts.findById(username);
 
 		if( account == null ) {
-			log.info("## 계정정보가 존재하지 않습니다. ##");
 			throw new UsernameNotFoundException(username);
 		}
 		
@@ -48,7 +47,6 @@ public class AccountService implements UserDetailsService{
 		List<String> string_authorities = accounts.findauthoritiesbyid(username);
 		
 		if( string_authorities == null ) {
-			log.info("## 해당 계정에 부여된 권한이 없습니다. ##");
 			throw new UsernameNotFoundException(username);
 		}
 		

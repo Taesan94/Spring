@@ -18,3 +18,8 @@ server:
   jsp:
    init-parameters:
     development: true
+   
+#mybatis 설정..
+#mybatis:
+#  mapper-locations: classpath:/mapper/**/*_SQL.xml
+    

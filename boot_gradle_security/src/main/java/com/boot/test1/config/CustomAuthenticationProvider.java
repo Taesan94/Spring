@@ -33,7 +33,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 		String username = (String) authentication.getPrincipal();
 		String password = (String) authentication.getCredentials();
-		String passwordEnc = passwordEncoder.encode(password);
 		
 		Account account = (Account) accountService.loadUserByUsername(username);
 		

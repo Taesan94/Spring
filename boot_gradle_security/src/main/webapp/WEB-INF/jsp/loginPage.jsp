@@ -67,13 +67,11 @@
 							<button name="submit" type="submit" class="btn btn-block btn-primary text-light">로그인</button>
 
 <%-- 							<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}"> --%>
-								<c:if test="${not empty exceptionMsgName}" >
+								<c:if test="${not empty exceptionMsgName}" ><br>
 								<font color="red">
-									<p>
-										Your login attempt was not successful due to <br /> 
+									<p>${exceptionMsgName}
 <%-- 										${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} --%>
 									</p> 
-									<p>exceptionMsgName : <%=request.getAttribute("exceptionMsgName") %>, ${exceptionMsgName}</p>
 								</font>
 <%-- 							</c:if> --%>
 							</c:if>
@@ -88,8 +86,7 @@
 									<br>
 									<sec:authorize access="isAuthenticated()">
 										<form action="/logout" method="POST">
-											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /
-											>
+											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" / >
 											<button type="submit" class="btn btn-dark btn-sm">LOGOUT</button>
 										</form>
 									</sec:authorize>

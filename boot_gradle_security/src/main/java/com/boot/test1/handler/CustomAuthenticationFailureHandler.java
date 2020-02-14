@@ -1,6 +1,7 @@
 package com.boot.test1.handler;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -8,14 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-
-import com.boot.test1.common.util.MessageUtils;
 
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 	
@@ -76,19 +78,19 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		String loginId = request.getParameter(loginIdName);
 		String loginPw = request.getParameter(loginPasswordName);
 		String loginRedirect = request.getParameter(loginRedirectUrl);
-		
 		String errormsg = exception.getMessage();
 		
 		if(exception instanceof BadCredentialsException) {
-			errormsg = MessageUtils.getMessage("error.BadCredentials");
+			errormsg = "ID 또는 PW가 일치하지 않습니다.";//messageSource.getMessage("msg.first", null , Locale.KOREA);
 		} else if(exception instanceof InternalAuthenticationServiceException) {
-			errormsg = MessageUtils.getMessage("error.BadCredentials");
+			errormsg = "ID 또는 PW가 일치하지 않습니다.";//messageSource.getMessage("msg.first", null , Locale.KOREA);
 		} else if(exception instanceof DisabledException) {
-			errormsg = MessageUtils.getMessage("error.Disaled");
+			errormsg = "계정이 비활성화되었습니다.";
 		} else if(exception instanceof CredentialsExpiredException) {
-			errormsg = MessageUtils.getMessage("error.CredentialsExpired");
+			errormsg = "계정이 만료되었습니다.";
+		} else if(exception instanceof UsernameNotFoundException) {
+			errormsg = "계정 정보 혹은 계정의 권한정보가 존재하지 않습니다.";
 		}
-		
 		
 		request.setAttribute(loginIdName, loginId);
 		request.setAttribute(loginPasswordName, loginPw);
