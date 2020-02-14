@@ -6,32 +6,32 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-<<<<<<< HEAD
-=======
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
->>>>>>> 819fe5cab540f2ba42ebb8a5f2717d7d8fb7eca1
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import com.boot.test1.common.util.MessageUtils;
+
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 	
-	private String loginIdName ;
-	private String loginPasswordName ;
-	private String loginRedirectName ;
-	private String exceptionMsgName ;
-	private String defaultFailureUrl ;
+	private String loginIdName ;  			// 로그인 id값이 들어오는 input태그 name
+	private String loginPasswordName ;		// 로그인 pw값이 들어오는 input태그 name
+	private String loginRedirectUrl ;		// 로그인 성공시 redirect 할 URL이 지정되어 있는 input태그 name
+	private String exceptionMsgName ;		// 예외 메시지를 REQUEST의 ATTRIBUTE에 저장할 때 사용
+	private String defaultFailureUrl ;		// 화면에 보여줄 url(로그인 화면)
 	
-<<<<<<< HEAD
-=======
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
->>>>>>> 819fe5cab540f2ba42ebb8a5f2717d7d8fb7eca1
-	public CustomAuthenticationFailureHandler(String loginIdName, String loginPasswordName, String loginRedirectName,
+	public CustomAuthenticationFailureHandler(String loginIdName, String loginPasswordName, String loginRedirectUrl,
 			String exceptionMsgName, String defaultFailureUrl) {
 		this.loginIdName = loginIdName;
 		this.loginPasswordName = loginPasswordName;
-		this.loginRedirectName = loginRedirectName;
+		this.loginRedirectUrl = loginRedirectUrl;
 		this.exceptionMsgName  = exceptionMsgName;
 		this.defaultFailureUrl = defaultFailureUrl;
 	}
@@ -48,11 +48,11 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	public void setLoginPasswordName(String loginPasswordName) {
 		this.loginPasswordName = loginPasswordName;
 	}
-	public String getLoginRedirectName() {
-		return loginRedirectName;
+	public String getLoginRedirectUrl() {
+		return loginRedirectUrl;
 	}
-	public void setLoginRedirectName(String loginRedirectName) {
-		this.loginRedirectName = loginRedirectName;
+	public void setLoginRedirectUrl(String loginRedirectUrl) {
+		this.loginRedirectUrl = loginRedirectUrl;
 	}
 	public String getExceptionMsgName() {
 		return exceptionMsgName;
@@ -71,31 +71,32 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 		
-<<<<<<< HEAD
-=======
 		log.info("######### onAuthenticationFailure #########");
 		
->>>>>>> 819fe5cab540f2ba42ebb8a5f2717d7d8fb7eca1
 		String loginId = request.getParameter(loginIdName);
 		String loginPw = request.getParameter(loginPasswordName);
-		String loginRedirect = request.getParameter(loginRedirectName);
+		String loginRedirect = request.getParameter(loginRedirectUrl);
 		
-<<<<<<< HEAD
-=======
-		log.info("loginId : " + loginId +", loginPw : " + loginPw +", loginRedirect : " + loginRedirect + ", exceptionMsgName : " + exceptionMsgName + ", defaultFailureUrl : " + defaultFailureUrl) ;
+		String errormsg = exception.getMessage();
 		
->>>>>>> 819fe5cab540f2ba42ebb8a5f2717d7d8fb7eca1
+		if(exception instanceof BadCredentialsException) {
+			errormsg = MessageUtils.getMessage("error.BadCredentials");
+		} else if(exception instanceof InternalAuthenticationServiceException) {
+			errormsg = MessageUtils.getMessage("error.BadCredentials");
+		} else if(exception instanceof DisabledException) {
+			errormsg = MessageUtils.getMessage("error.Disaled");
+		} else if(exception instanceof CredentialsExpiredException) {
+			errormsg = MessageUtils.getMessage("error.CredentialsExpired");
+		}
+		
+		
 		request.setAttribute(loginIdName, loginId);
 		request.setAttribute(loginPasswordName, loginPw);
-		request.setAttribute(loginRedirectName, loginRedirect);
+		request.setAttribute(loginRedirectUrl, loginRedirect);
+		request.setAttribute(exceptionMsgName, errormsg);
 		
-		request.setAttribute(exceptionMsgName, exception.getMessage());
-		
-<<<<<<< HEAD
-=======
 		log.info(" exception.getMessage() : " + exception.getMessage() );
 		
->>>>>>> 819fe5cab540f2ba42ebb8a5f2717d7d8fb7eca1
 		request.getRequestDispatcher(defaultFailureUrl).forward(request, response);
 	}
 }

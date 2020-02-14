@@ -11,22 +11,31 @@
 <%@ page import="com.boot.test1.vo.Account" %>
 
 <%
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-	Object principal = auth.getPrincipal();
 	String name = "";
+	String msg = (String) request.getAttribute("exceptionMsgName");
 	
-	if ( principal instanceof Account ) System.out.println(" Accout 객체 맞음 !! ");
-	else System.out.println(" Accout 객체 아님.. " + principal.getClass().toString());
-	
-	if ( principal != null && principal instanceof Account ){
-		name = ((Account)principal).getUsername();
-		System.out.println(" Account에서 가지고온 이름 ! : " + name);
-	}else {
-		name = (String)principal ;
-		System.out.println(" 그냥 String.. ㅜㅜ : " + name);
+	if (msg == null || msg.equals("")) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		try {
+			Object principal = auth.getPrincipal();
+			if (principal instanceof Account)
+				System.out.println(" Accout 객체 맞음 !! ");
+			else
+				System.out.println(" Accout 객체 아님.. " + principal.getClass().toString());
+
+			if (principal != null && principal instanceof Account) {
+				name = ((Account) principal).getUsername();
+				System.out.println(" Account에서 가지고온 이름 ! : " + name);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 %>
+
+
 
 <html>
 <head>
@@ -42,7 +51,7 @@
 			<div class="col-md-4 "></div>
 			<div class="col-md-4" style="flex-align: center">
 				<div class="card">
-					<h5 class="card-header">로그인</h5>
+					<h5 class="card-header">로그인 </h5>
 					<div class="card-body">
 						<form action='/loginProcess' method='POST'>
 							<div class="form-group">
@@ -57,33 +66,20 @@
 							</div>
 							<button name="submit" type="submit" class="btn btn-block btn-primary text-light">로그인</button>
 
-<<<<<<< HEAD
-							<c:if test="${not empty securityExceptionMsg}">
-							<%--<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">  --%>
-								<font color="red">
-									<p>Your login attempt was not successful, try again</p>
-									<p>${securityExceptionMsg}</p> 
-									<%--<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session" />  --%>
-								</font>
-							</c:if>
-							<input type="hidden" name="loginRedirect" value="${loginRedirect}" />
-=======
-							<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+<%-- 							<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}"> --%>
+								<c:if test="${not empty exceptionMsgName}" >
 								<font color="red">
 									<p>
 										Your login attempt was not successful due to <br /> 
-										${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+<%-- 										${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} --%>
 									</p> 
-									<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session" />
+									<p>exceptionMsgName : <%=request.getAttribute("exceptionMsgName") %>, ${exceptionMsgName}</p>
 								</font>
+<%-- 							</c:if> --%>
 							</c:if>
-							
->>>>>>> 819fe5cab540f2ba42ebb8a5f2717d7d8fb7eca1
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> <br>
 
 							<sec:authorize access="isAuthenticated()">
-							
-							
 								<div class="form-group" align="center">
 									<h5>
  	 										<%=name%> 님, 반갑습니다. 
@@ -92,13 +88,14 @@
 									<br>
 									<sec:authorize access="isAuthenticated()">
 										<form action="/logout" method="POST">
-											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /
+											>
 											<button type="submit" class="btn btn-dark btn-sm">LOGOUT</button>
 										</form>
 									</sec:authorize>
 								</div>
 							</sec:authorize>
-							
+							<input type="hidden" name ="loginRedirect" value="${loginRedirect}" />
 
 						</form>
 					</div>

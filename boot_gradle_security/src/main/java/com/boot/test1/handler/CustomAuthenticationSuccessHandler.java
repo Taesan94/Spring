@@ -36,7 +36,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		this.targetUrlParameter=targetUrlParameter;
 		this.defaultUrl=defaultUrl;
 		this.useReferer = useReferer;
-		log.info(" targetUrlParameter : " , targetUrlParameter + ", defaultUrl : " + defaultUrl +", useReferer : " + useReferer );
+		log.info(" targetUrlParameter : " + targetUrlParameter + ", defaultUrl : " + defaultUrl +", useReferer : " + useReferer );
 	}
 	
 	// getter, settger
@@ -74,11 +74,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		
-<<<<<<< HEAD
-=======
 		log.info("######### onAuthenticationSuccess #########");
 		
->>>>>>> 819fe5cab540f2ba42ebb8a5f2717d7d8fb7eca1
 		clearAuthenticationAttributes(request);
 		
 		int intRedirectStrategy = decideRedirectStrategy(request,response);
@@ -128,6 +125,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			
 			String targetUrl = request.getParameter(targetUrlParameter);
 			
+			log.info(" request.getParameter(targetUrl) : [ "+ targetUrl +" ]");
+			
 			if(StringUtils.hasText(targetUrl)) {
 				result = 1;
 			}else {
@@ -159,6 +158,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	 *  이 남아있는 에러세션을 주기위한 메서드이다.
 	 */
 	private void clearAuthenticationAttributes(HttpServletRequest request) {
+		log.info("######### clearAuthenticationAttributes #########");
+		
 		HttpSession session = request.getSession(false);
 		
 		if ( session == null ) return;
@@ -167,6 +168,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	}
 	
 	private void useTargetUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		log.info("######### useTargetUrl #########");
+		
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		
 		if(savedRequest != null ) {
@@ -178,17 +181,22 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	}
 
 	private void useSessionUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		log.info("######### useSessionUrl #########");
+		
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		String targetUrl = savedRequest.getRedirectUrl();
 		redirectStrategy.sendRedirect(request, response, targetUrl);
 	}
 	
 	private void useRefererUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		log.info("######### useRefererUrl #########");
+		
 		String targetUrl = request.getHeader("REFERER");
 		redirectStrategy.sendRedirect(request, response, targetUrl);
 	}
 	
 	private void useDefaultUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		log.info("######### useDefaultUrl #########");
 		redirectStrategy.sendRedirect(request, response, defaultUrl);
 	}
 	

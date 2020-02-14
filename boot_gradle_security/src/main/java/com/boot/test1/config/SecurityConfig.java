@@ -1,5 +1,7 @@
 package com.boot.test1.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private AuthenticationFailureHandler failureHandler;
+	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
@@ -59,23 +63,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	  @Bean
 	  public PasswordEncoder passwordEncoder() {
+		log.info("[ BEAN ] : passwordEncoder");
 	    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	  }
 	  
 	  // 로그인 성공 처리를 위한 Handler
 	  @Bean
 	  public AuthenticationSuccessHandler successHandler() {
-	      return new CustomAuthenticationSuccessHandler("loginRedirect", "/login", false);
+		  log.info("[ BEAN ] : AuthenticationSuccessHandler");
+	      return new CustomAuthenticationSuccessHandler("loginRedirectUrl", "/loginSuccess", false);
 	  }
 	  
 	  // 실패 처리를 위한 Handler
 	  @Bean
 	  public AuthenticationFailureHandler failureHandler() {
-<<<<<<< HEAD
-		  return new CustomAuthenticationFailureHandler("username", "password" , "loginRedirect" , "securityExceptionMsg" , "/login?fail=true");
-=======
-		  return new CustomAuthenticationFailureHandler("username", "password" , "loginRedirect" , "exceptionMsgName" , "/login?fail=true");
->>>>>>> 819fe5cab540f2ba42ebb8a5f2717d7d8fb7eca1
+		  log.info("[ BEAN ] : failureHandler");
+		  return new CustomAuthenticationFailureHandler("username", "password" , "loginRedirectUrl" , "exceptionMsgName" , "/login");
 	  }
 	
 }

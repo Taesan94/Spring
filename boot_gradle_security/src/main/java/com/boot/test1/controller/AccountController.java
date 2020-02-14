@@ -49,13 +49,10 @@ public class AccountController {
 	}
 	
 	// LOGIN
-	@RequestMapping(value = "/login", method=RequestMethod.GET )
+	@RequestMapping(value = "/login" )
 	public String login(Model model, HttpServletRequest req) {
 		
 		log.info("### /login 입니다 ");
-		
-		model.addAttribute( "message", req.getServletContext() );
-		
 		return "loginPage";
 	}
 	
