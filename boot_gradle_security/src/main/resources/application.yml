@@ -19,7 +19,6 @@ server:
    init-parameters:
     development: true
    
-#mybatis 설정..
-#mybatis:
-#  mapper-locations: classpath:/mapper/**/*_SQL.xml
-    
+# mybatis 설정..
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
