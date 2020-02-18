@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.test1.mapper.AccountMapper">
+
+	<select id="readAccount"  parameterType="String" resultType="com.boot.test1.vo.Account">
+		SELECT * FROM [BSHOP_DATA].dbo.USER_INFO
+		WHERE ID= #{id}
+	</select>
+	
+	<select id="readAuthorites"  parameterType="String" resultType="String">
+		SELECT AUTHORITY_NAME 
+		FROM [BSHOP_DATA].dbo.AUTHORITY WHERE USERNAME=#{userName}
+	</select>
+
+	<insert id="insertUser" parameterType="com.boot.test1.vo.Account">
+		INSERT [BSHOP_DATA].dbo.USER_INFO
+		VALUES (
+		#{id},
+		#{password},
+		#{isAccountNonExpired},
+		#{isAccountNonLocked},
+		#{isCredentialsNonExpired},
+		#{isEnabled}
+		)
+	</insert>
+
+	<insert id="insertUserAuthority" parameterType="com.boot.test1.vo.Authority">
+		INSERT INTO [BSHOP_DATA].dbo.AUTHORITY
+		VALUES (
+		#{userName},
+		#{authorityName}
+		)
+	</insert>
+	
+	
+
+</mapper>

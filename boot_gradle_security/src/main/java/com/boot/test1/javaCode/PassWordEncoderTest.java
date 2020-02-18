@@ -62,7 +62,7 @@ public class PassWordEncoderTest {
 
 	}
 
-	public static void main(String[] args) {
+	public static void main2(String[] args) {
 		System.out.println("### encode ###");
 		encode();
 		System.out.println("### noEncId ###");
