@@ -59,4 +59,9 @@
     <td>로그인 에러메시지 Security의 Session > request.Attribute방식으로 바꾸던 중 화면에 데이터출력 오류</td>
     <td><a href="https://github.com/Taesan94/Spring/issues/2">[ Detail ]</a></td>
   </tr>
+   <tr>
+    <td>MyBatis사용하면서 MapperLocation변경 시 BindingException... </td>
+    <td><a href="https://github.com/Taesan94/Spring/issues/3">[ Detail ]</a></td>
+  </tr> 
+  
 <table>
