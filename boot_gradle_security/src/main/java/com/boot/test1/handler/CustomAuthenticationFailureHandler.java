@@ -11,13 +11,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+
+import com.boot.test1.repo.AccountRepository;
+import com.boot.test1.vo.Account;
 
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 	
@@ -29,7 +34,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	
 	@Autowired
 	MessageSource messageSource;
-
+	
+	@Autowired
+	AccountRepository accoutDao;
 	
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
@@ -85,9 +92,15 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		String errormsg = exception.getMessage();
 		
 		if(exception instanceof BadCredentialsException) {
-			errormsg = messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", null , Locale.KOREA); 
+			// 잠긴계정인지 확인하여, errormsg변경해준다.
+			boolean userUnLock = true;
+			userUnLock = failCnt(loginId);
+			if ( !userUnLock )
+				errormsg = messageSource.getMessage("AccountStatusUserDetailsChecker.disabled", null , Locale.KOREA);
+			else
+				errormsg = messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", null , Locale.KOREA);
 		} else if(exception instanceof InternalAuthenticationServiceException) {
-			errormsg = messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", null , Locale.KOREA); 
+			errormsg = messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.InternalAuthentication", null , Locale.KOREA); 
 		} else if(exception instanceof DisabledException) {
 			errormsg = messageSource.getMessage("AccountStatusUserDetailsChecker.disabled", null , Locale.KOREA);
 		} else if(exception instanceof CredentialsExpiredException) {
@@ -95,7 +108,11 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		} else if(exception instanceof UsernameNotFoundException) {
 			Object[] args = new String[] { loginId } ;
 			errormsg = messageSource.getMessage("DigestAuthenticationFilter.usernameNotFound", args , Locale.KOREA);
-		}
+		} else if(exception instanceof AccountExpiredException) {
+			errormsg = messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.expired", null , Locale.KOREA);
+		} else if(exception instanceof LockedException) {
+			errormsg = messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.locked", null , Locale.KOREA);
+		} 
 		
 		request.setAttribute(loginIdName, loginId);
 		request.setAttribute(loginPasswordName, loginPw);
@@ -105,5 +122,25 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		log.info(" exception.getMessage() : " + exception.getMessage() );
 		
 		request.getRequestDispatcher(defaultFailureUrl).forward(request, response);
+	}
+	
+	private boolean failCnt(String loginId) {
+		
+		// 계정이 잠겼으면 추가로 실패횟수 증가시키지않고, true를 return한다.
+		boolean userUnLock = true;
+
+		// 실패횟수 select
+		Account account = accoutDao.getUserInfo(loginId);
+		userUnLock = account.isEnabled();
+
+		// 계정이 활성화 되어있는 경우에만 실패횟수와, Enabled설정을 변경한다.
+		// Enabled설정은 실패횟수가 5이상일 때 바뀐다.
+		if ( userUnLock ) {
+			if( account.getFailCnt() < 5 )
+				accoutDao.loginFailCnt(loginId);
+			else
+				accoutDao.changeEnabled(loginId);
+		}
+		return userUnLock;
 	}
 }

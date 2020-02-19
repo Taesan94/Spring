@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 						.loginPage("/login") // 로그인이 수행될 경로.
 						.loginProcessingUrl("/loginProcess")// 로그인form의  action과 일치시켜주어야 함.
 						.defaultSuccessUrl("/loginSuccess") // 로그인 성공 시 이동할 경로.
-						//.failureUrl("/login?error=true") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸다.
+						//.failureUrl("/login?error=true") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸다. , failureHandler 사용으로 불필요해졌다.
 						.successHandler(successHandler)
 						.failureHandler(failureHandler)
 				.permitAll()

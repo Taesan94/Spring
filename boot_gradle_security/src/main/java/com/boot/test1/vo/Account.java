@@ -9,6 +9,7 @@ public class Account implements UserDetails{
 
 	private String id;
 	private String password;
+	private int failCnt;
 	private boolean isAccountNonExpired;
 	private boolean isAccountNonLocked;
 	private boolean isCredentialsNonExpired;
@@ -53,6 +54,13 @@ public class Account implements UserDetails{
 			this.authorities = authorities;
 		}
 
+		public int getFailCnt() {
+			return failCnt;
+		}
+
+		public void setFailCnt(int failCnt) {
+			this.failCnt = failCnt;
+		}
 
 		// UserDetails의 필수 메서드들
 		@Override

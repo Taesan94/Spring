@@ -155,7 +155,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	/*
 	 *  기본적으로 SpringSecurity는 로그인 실패하면 에러세션을 저장한다.
 	 *  그러나, 예를들어 로그인을 5번시도하고 성공했다고해도 그 에러세션이 저장되어 있을것이다.
-	 *  이 남아있는 에러세션을 주기위한 메서드이다.
+	 *  이 남아있는 에러세션을 지워주기위한 메서드이다.
 	 */
 	private void clearAuthenticationAttributes(HttpServletRequest request) {
 		log.info("######### clearAuthenticationAttributes #########");
@@ -197,6 +197,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	
 	private void useDefaultUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		log.info("######### useDefaultUrl #########");
+		
 		redirectStrategy.sendRedirect(request, response, defaultUrl);
 	}
 	

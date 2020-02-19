@@ -28,5 +28,18 @@ public class AccountRepository {
 	public List<String>findauthoritiesbyid(String username){
 		return (List<String>)accountMapper.readAuthorites(username);
 	}
-
+	
+	public Account getUserInfo(String username) {
+		Account account = accountMapper.getFailCnt(username);
+		return account;
+	}
+	
+	public void loginFailCnt(String username) {
+		accountMapper.failCntUpdate(username);
+	}
+	
+	public void changeEnabled(String username) {
+		accountMapper.changeEnabled(username);
+	}
+	
 }
