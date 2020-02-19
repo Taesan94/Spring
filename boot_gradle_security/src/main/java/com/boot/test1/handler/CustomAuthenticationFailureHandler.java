@@ -27,6 +27,10 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	private String exceptionMsgName ;		// 예외 메시지를 REQUEST의 ATTRIBUTE에 저장할 때 사용
 	private String defaultFailureUrl ;		// 화면에 보여줄 url(로그인 화면)
 	
+	@Autowired
+	MessageSource messageSource;
+
+	
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	public CustomAuthenticationFailureHandler(String loginIdName, String loginPasswordName, String loginRedirectUrl,
@@ -81,15 +85,16 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		String errormsg = exception.getMessage();
 		
 		if(exception instanceof BadCredentialsException) {
-			errormsg = "ID 또는 PW가 일치하지 않습니다.";//messageSource.getMessage("msg.first", null , Locale.KOREA);
+			errormsg = messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", null , Locale.KOREA); 
 		} else if(exception instanceof InternalAuthenticationServiceException) {
-			errormsg = "ID 또는 PW가 일치하지 않습니다.";//messageSource.getMessage("msg.first", null , Locale.KOREA);
+			errormsg = messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", null , Locale.KOREA); 
 		} else if(exception instanceof DisabledException) {
-			errormsg = "계정이 비활성화되었습니다.";
+			errormsg = messageSource.getMessage("AccountStatusUserDetailsChecker.disabled", null , Locale.KOREA);
 		} else if(exception instanceof CredentialsExpiredException) {
-			errormsg = "계정이 만료되었습니다.";
+			errormsg = messageSource.getMessage("AccountStatusUserDetailsChecker.expired", null , Locale.KOREA);
 		} else if(exception instanceof UsernameNotFoundException) {
-			errormsg = "계정 정보 혹은 계정의 권한정보가 존재하지 않습니다.";
+			Object[] args = new String[] { loginId } ;
+			errormsg = messageSource.getMessage("DigestAuthenticationFilter.usernameNotFound", args , Locale.KOREA);
 		}
 		
 		request.setAttribute(loginIdName, loginId);

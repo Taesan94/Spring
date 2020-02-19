@@ -12,13 +12,14 @@ spring:
    username: jayhyub7
    password: dkagh1234.
    
-# mybatis 설정..
-mybatis:
-  mapper-locations: classpath:/mybatis/mapper/*.xml
-  
 # jsp파일 reload할때마다 재부팅해야되서 해당설정 추가해주었음.  
 server:
  servlet:
   jsp:
    init-parameters:
     development: true
+    
+# mybatis 설정.
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+  
