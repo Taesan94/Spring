@@ -66,14 +66,14 @@
 							</div>
 							<button name="submit" type="submit" class="btn btn-block btn-primary text-light">로그인</button>
 
-<%-- 							<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}"> --%>
+								<%-- <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}"> --%>
 								<c:if test="${not empty exceptionMsgName}" ><br>
 								<font color="red">
 									<p>${exceptionMsgName}
-<%-- 										${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} --%>
+								<%-- ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} --%>
 									</p> 
 								</font>
-<%-- 							</c:if> --%>
+								<%-- </c:if> --%>
 							</c:if>
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> <br>
 

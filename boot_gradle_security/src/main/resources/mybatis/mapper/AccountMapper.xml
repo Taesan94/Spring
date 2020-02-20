@@ -33,9 +33,9 @@
 	</insert>
 	
 	<update id="failCntUpdate" parameterType="String" >
-	UPDATE [BSHOP_DATA].dbo.USER_INFO 
-	SET failCnt = isnull(failCnt, 0)+1 
-	WHERE ID = #{id}
+		UPDATE [BSHOP_DATA].dbo.USER_INFO 
+		SET failCnt = isnull(failCnt, 0)+1 
+		WHERE ID = #{id}
 	</update>
 	
 	<select id="getFailCnt"  parameterType="String" resultType="com.boot.test1.vo.Account">
@@ -45,7 +45,8 @@
 	
 	<update id="changeEnabled" parameterType="String" >
 		UPDATE [BSHOP_DATA].dbo.USER_INFO 
-		SET isEnabled = (CASE isEnabled WHEN 0 THEN 1 ELSE 0 END) 
+		SET isEnabled = (CASE isEnabled WHEN 0 THEN 1 ELSE 0 END) ,
+		failCnt = (CASE isEnabled WHEN 1 THEN 0 ELSE failCnt END)
 		WHERE ID = #{id}
 	</update>
 	
