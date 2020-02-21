@@ -71,7 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	  @Bean
 	  public AuthenticationSuccessHandler successHandler() {
 		  log.info("[ BEAN ] : AuthenticationSuccessHandler");
-	      return new CustomAuthenticationSuccessHandler("loginRedirectUrl", "/loginSuccess", false);
+		  // loginIdname, defaultUrl
+	      return new CustomAuthenticationSuccessHandler("username", "/loginSuccess");
 	  }
 	  
 	  // 실패 처리를 위한 Handler

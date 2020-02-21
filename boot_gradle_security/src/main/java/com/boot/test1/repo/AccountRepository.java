@@ -42,4 +42,8 @@ public class AccountRepository {
 		accountMapper.changeEnabled(username);
 	}
 	
+	public void resetFailCnt(String username) {
+		accountMapper.resetFailCnt(username);
+	}
+	
 }

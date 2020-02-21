@@ -50,4 +50,10 @@
 		WHERE ID = #{id}
 	</update>
 	
+	<update id="resetFailCnt" parameterType="String" >
+		UPDATE [BSHOP_DATA].dbo.USER_INFO 
+		SET failCnt = 0
+		WHERE ID = #{id}
+	</update>
+	
 </mapper>

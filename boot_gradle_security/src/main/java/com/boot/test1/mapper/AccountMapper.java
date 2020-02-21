@@ -35,5 +35,8 @@ public interface AccountMapper {
 	*/
 	void changeEnabled(String id);
 	
-	
+	/*
+	 * 실패횟수 초기화
+	 */
+	void resetFailCnt(String id);
 }
