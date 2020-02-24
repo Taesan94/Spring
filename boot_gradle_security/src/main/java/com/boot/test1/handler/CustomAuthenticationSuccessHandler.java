@@ -63,14 +63,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		
 		String requestUserName = request.getParameter(username);
 		
-		log.info( " requestUserName : " + requestUserName );
-		
 		// 실패회수 초기화
 		accoutDao.resetFailCnt(requestUserName);
-		
 		// 에러세션 지우기
 		clearAuthenticationAttributes(request);
-		
 		// Redirect URL 작업.
 		resultRedirectStrategy(request, response, authentication);
 		

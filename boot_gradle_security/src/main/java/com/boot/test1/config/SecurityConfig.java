@@ -46,9 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.permitAll()
 				.and()
 			 .logout()
-			 	.permitAll()
 			 	.logoutUrl("/logout")
 			 	.logoutSuccessUrl("/")
+			 	.deleteCookies("JSESSIONID")
+			 	.permitAll()
 			 	.and()
 			 .exceptionHandling()
 			 	.accessDeniedPage("/accessDenied_page"); // 권한이 없는 대상이 접속을시도했을 때

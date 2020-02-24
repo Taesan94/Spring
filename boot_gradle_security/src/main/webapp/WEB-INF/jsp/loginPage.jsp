@@ -64,8 +64,9 @@
 								<label> <input type="checkbox"> 아이디 기억하기
 								</label>
 							</div>
+							<sec:authorize access="isAnonymous()">
 							<button name="submit" type="submit" class="btn btn-block btn-primary text-light">로그인</button>
-
+							</sec:authorize>
 								<%-- <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}"> --%>
 								<c:if test="${not empty exceptionMsgName}" ><br>
 								<font color="red">
@@ -84,12 +85,10 @@
 									<%--<sec:authentication property="principal.username" />님, 겁나 반갑습니다. --%>
 									</h5>
 									<br>
-									<sec:authorize access="isAuthenticated()">
 										<form action="/logout" method="POST">
-											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" / >
+											<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 											<button type="submit" class="btn btn-dark btn-sm">LOGOUT</button>
 										</form>
-									</sec:authorize>
 								</div>
 							</sec:authorize>
 							<input type="hidden" name ="loginRedirect" value="${loginRedirect}" />
