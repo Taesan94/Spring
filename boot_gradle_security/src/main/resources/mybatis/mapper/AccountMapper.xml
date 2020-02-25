@@ -3,7 +3,7 @@
 <mapper namespace="com.boot.test1.mapper.AccountMapper">
 
 	<select id="readAccount"  parameterType="String" resultType="com.boot.test1.vo.Account">
-		SELECT * FROM USER_INFO
+		SELECT * FROM [BSHOP_DATA].dbo.USER_INFO
 		WHERE ID= #{id}
 	</select>
 	
@@ -13,7 +13,7 @@
 	</select>
 
 	<insert id="insertUser" parameterType="com.boot.test1.vo.Account">
-		INSERT USER_INFO
+		INSERT [BSHOP_DATA].dbo.USER_INFO
 		VALUES (
 		#{id},
 		#{password},
@@ -33,26 +33,27 @@
 	</insert>
 	
 	<update id="failCntUpdate" parameterType="String" >
-		UPDATE USER_INFO 
+		UPDATE [BSHOP_DATA].dbo.USER_INFO 
 		SET failCnt = isnull(failCnt, 0)+1 
 		WHERE ID = #{id}
 	</update>
 	
 	<select id="getFailCnt"  parameterType="String" resultType="com.boot.test1.vo.Account">
-		SELECT failCnt, isEnabled FROM USER_INFO
+		SELECT failCnt, isEnabled FROM [BSHOP_DATA].dbo.USER_INFO
 		WHERE ID= #{id}
 	</select>
 	
 	<update id="changeEnabled" parameterType="String" >
-		UPDATE USER_INFO 
+		UPDATE [BSHOP_DATA].dbo.USER_INFO 
 		SET isEnabled = (CASE isEnabled WHEN 0 THEN 1 ELSE 0 END) ,
 		failCnt = (CASE isEnabled WHEN 1 THEN 0 ELSE failCnt END)
 		WHERE ID = #{id}
 	</update>
 	
 	<update id="resetFailCnt" parameterType="String" >
-		UPDATE USER_INFO 
+		UPDATE [BSHOP_DATA].dbo.USER_INFO 
 		SET failCnt = 0
+		failCnt = (CASE isEnabled WHEN 1 THEN 0 ELSE failCnt END)
 		WHERE ID = #{id}
 	</update>
 	
