@@ -18,7 +18,6 @@ function login() {
 			CommonUtil.alertValidationMessage($("#mainForm"));
 			return false; 
 		} else {
-
 			return true;
 		}
 	});
