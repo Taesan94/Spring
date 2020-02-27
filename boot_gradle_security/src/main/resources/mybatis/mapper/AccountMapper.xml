@@ -53,7 +53,6 @@
 	<update id="resetFailCnt" parameterType="String" >
 		UPDATE [BSHOP_DATA].dbo.USER_INFO 
 		SET failCnt = 0
-		failCnt = (CASE isEnabled WHEN 1 THEN 0 ELSE failCnt END)
 		WHERE ID = #{id}
 	</update>
 	
