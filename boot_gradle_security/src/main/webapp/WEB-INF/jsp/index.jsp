@@ -4,62 +4,43 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>JQGRID를 적용해보자</title>
 
-<script type="text/javascript">
-function login() {
-	if (!$("#mainForm").valid()) {
-		CommonUtil.alertValidationMessage($("#mainForm"));
-		return false; 
-	}
 
-	$("#mainForm").submit(function() {
-		if (!$("#mainForm").valid()) {
-			CommonUtil.alertValidationMessage($("#mainForm"));
-			return false; 
-		} else {
-			return true;
-		}
-	});
+<link rel="stylesheet" type="text/css" href="/jqgrid/css/jquery-ui.css"/>
+<link rel="stylesheet" type="text/css" href="/jqgrid/css/ui.jqgrid.css"/>
 
-}
-
-</script>
+<script type="text/javascript" src="/jqgrid/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/jqgrid/js/i18n/grid.locale-kr.js"></script>
+<script type="text/javascript" src="/jqgrid/js/jquery.jqGrid.min.js"></script>
 
 </head>
 <body>
+	<h1> JQGRID를 적용해보자  </h1>
+	
+	<table id="jqGrid"></table>
+	<div id="jqGridPager"></div>
+	
+	<script type="text/javascript"> 
+        $(document).ready(function () {
+            $("#jqGrid").jqGrid({
+                url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
+                mtype: "GET",
+                datatype: "jsonp",
+                colModel: [
+                    { label: 'OrderID', name: 'OrderID', key: true, width: 75 },
+                    { label: 'Customer ID', name: 'CustomerID', width: 150 },
+                    { label: 'Order Date', name: 'OrderDate', width: 150 },
+                    { label: 'Freight', name: 'Freight', width: 150 },
+                    { label:'Ship Name', name: 'ShipName', width: 150 }
+                ],
+                viewrecords: true,
+                height: 250,
+                rowNum: 101,
+                pager: "#jqGridPager"
+            });
+        });
+</script>
 
-	<h1> 로그인 </h1>
-	<form method="POST" id="mainForm" action="/authenticate">
-		<div class="loginForm">
-			<ul>
-			
-				<li>id : <input data-val-required="아이디 필드가 필요합니다." data-name="아이디"
-					id="ID" maxlength="15" name="ID" placeholder="아이디를 입력해주세요"
-					type="text" value="" required />
-				</li>
-				
-				<li>pw : <input data-val-required="비밀번호 필드가 필요합니다." data-name="비밀번호"
-					id="Password" maxlength="16" name="Password"
-					autocomplete="new-password" placeholder="패스워드를 입력해주세요"
-					type="password" required />
-				</li>
-				
-			</ul>
-			
-			<p>
-				<label> <input class="id_save" id="remember-me"
-					name="remember-me" title="Remember Me" type="checkbox" /> Remember Me
-				</label>
-			</p>
-
-			<input type="button" src="/img/login/loginBtn.png" alt="로그인" class="btn" id="btnLogin" onclick="login();" value="전송" />
-		</div>
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-
-	</form>
-
-	<br>
-	name : ${name}
 </body>
 </html>

@@ -12,6 +12,9 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+	/*
+	 * INDEX페이지 지정.
+	 */
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/", "/login");

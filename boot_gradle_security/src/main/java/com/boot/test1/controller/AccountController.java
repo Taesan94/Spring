@@ -28,26 +28,6 @@ public class AccountController {
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	// ADMIN 계정 부여, 수동으로 계정등록.. 계정정보 하드코딩해서..
-	@RequestMapping("/create")
-	public Account create() {
-		
-		String adminId = "admin";
-		
-		Account account = new Account();
-		account.setId(adminId);
-		account.setPassword("1234");
-		
-		Authority authority = new Authority();
-		
-		authority.setUserName(adminId);
-		authority.setAuthorityName("ROLE_ADMIN");
-		
-		// accountService.save(account, authority);
-		
-		return account;
-	}
-	
 	// LOGIN
 	@RequestMapping(value = "/login" )
 	public String login(Model model, HttpServletRequest req) {
@@ -57,10 +37,9 @@ public class AccountController {
 	}
 	
 	// LOGIN SUCCESS	
-	@GetMapping("/loginSuccess")
-	@ResponseBody
+	@RequestMapping("/loginSuccess")
 	public String loginSuccess() {
-		return "SUCCESS !";
+		return "index";
 	}
 	
 	// LOGIN SUCCESS	
