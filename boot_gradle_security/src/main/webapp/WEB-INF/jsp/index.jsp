@@ -28,14 +28,14 @@
                 mtype: "GET",
                 datatype: "jsonp",
                 colModel: [
-                    { label: 'OrderID', name: 'OrderID', key: true, width: 75 },
+                    { label: 'OrderID', name: 'OrderID', key: true, width: 50 },
                     { label: 'Customer ID', name: 'CustomerID', width: 150 },
                     { label: 'Order Date', name: 'OrderDate', width: 150 },
                     { label: 'Freight', name: 'Freight', width: 150 },
                     { label:'Ship Name', name: 'ShipName', width: 150 }
                 ],
                 viewrecords: true,
-                height: 250,
+                height: 500,
                 rowNum: 100,
                 pager: "#jqGridPager"
             });
