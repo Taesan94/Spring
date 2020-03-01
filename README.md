@@ -48,20 +48,34 @@
 
 <table>
   <tr>
+    <td>분류</td>
     <td>이슈 내용</td>
     <td>조치 내용</td>
   </tr>
   <tr>
+    <td>Annotation</td>
     <td>servlet클래스에서 String을 return하여 [ .jsp ] 페이지로 forwarding 기대하였으나, 화면에 출력됨..</td>
     <td><a href="https://github.com/Taesan94/Spring/issues/1">[ Detail ]</a></td>
   </tr>
   <tr>
+    <td>Http Method 설정오류</td>
     <td>로그인 에러메시지 Security의 Session > request.Attribute방식으로 바꾸던 중 화면에 데이터출력 오류</td>
     <td><a href="https://github.com/Taesan94/Spring/issues/2">[ Detail ]</a></td>
   </tr>
    <tr>
+    <td>MyBatis</td>
     <td>MyBatis사용하면서 MapperLocation변경 시 BindingException... </td>
     <td><a href="https://github.com/Taesan94/Spring/issues/3">[ Detail ]</a></td>
   </tr> 
+  <tr>
+    <td>SpringSecurity 설정오류</td>
+    <td>loadUserByUsername 메서드 수행시 DAO클래스 의존성이 주입되지않아, DB정보를 조회하지 못함.</td>
+    <td><a href="https://github.com/Taesan94/Spring/issues/4">[ Detail ]</a></td>
+  </tr>
+    <tr>
+    <td>SpringSecurity 설정오류</td>
+    <td>없는 계정의 ID로 로그인시도 하여 UsernameNotFoundException에러 처리를 예상했으나 BadCredentialsException로 예외처리 됨.</td>
+    <td><a href="https://github.com/Taesan94/Spring/issues/5">[ Detail ]</a></td>
+  </tr>
   
 <table>
