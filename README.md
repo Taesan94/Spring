@@ -75,7 +75,7 @@
     <tr>
     <td>SpringSecurity 설정오류</td>
     <td>없는 계정의 ID로 로그인시도 하여 UsernameNotFoundException에러 처리를 예상했으나 BadCredentialsException로 예외처리 됨.</td>
-    <td><a href="https://github.com/Taesan94/Spring/issues/5">[Detail]</a></td>
+    <td><a href="https://github.com/Taesan94/Spring/issues/5">[working..]</a></td>
   </tr>
   
 <table>
