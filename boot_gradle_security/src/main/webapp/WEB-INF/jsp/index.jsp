@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>JQGRID를 적용해보자</title>
+<title>Main Page</title>
 
 
 <link rel="stylesheet" type="text/css" href="/jqgrid/css/jquery-ui.css"/>
@@ -14,33 +14,15 @@
 <script type="text/javascript" src="/jqgrid/js/i18n/grid.locale-kr.js"></script>
 <script type="text/javascript" src="/jqgrid/js/jquery.jqGrid.min.js"></script>
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-	<h1> JQGRID를 적용해보자  </h1>
-	
-	<table id="jqGrid"></table>
-	<div id="jqGridPager"></div>
-	
-	<script type="text/javascript"> 
-        $(document).ready(function () {
-            $("#jqGrid").jqGrid({
-                url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-                mtype: "GET",
-                datatype: "jsonp",
-                colModel: [
-                    { label: 'OrderID', name: 'OrderID', key: true, width: 50 },
-                    { label: 'Customer ID', name: 'CustomerID', width: 150 },
-                    { label: 'Order Date', name: 'OrderDate', width: 150 },
-                    { label: 'Freight', name: 'Freight', width: 150 },
-                    { label:'Ship Name', name: 'ShipName', width: 150 }
-                ],
-                viewrecords: true,
-                height: 500,
-                rowNum: 100,
-                pager: "#jqGridPager"
-            });
-        });
-</script>
-
+<div align="center">
+<br><br>
+<a class="btn btn-outline-primary" href="/useJqGrid">Use JqGrid</a><br><br>
+<a class="btn btn-outline-primary" href="/performanceAPI">공연정보 조회</a><br><br>
+<a class="btn btn-outline-success" href="/goHome">홈 화면으로가기</a><br><br>
+<br><br>
+</div>
 </body>
 </html>

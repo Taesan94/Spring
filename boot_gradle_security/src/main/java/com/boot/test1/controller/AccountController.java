@@ -42,11 +42,29 @@ public class AccountController {
 		return "index";
 	}
 	
-	// LOGIN SUCCESS	
+	// LOGIN Fail	
 	@GetMapping("/loginFail")
 	@ResponseBody
 	public String loginFail() {
 		return "Fail !";
+	}
+	
+	// jqgrid 사용해보기
+	@RequestMapping("/useJqGrid")
+	public String useJqGrid() {
+		return "useJqGrid";
+	}
+	
+	// 공공API 호출, 공연정보
+	@RequestMapping("/performanceAPI")
+	public String callAPI_performance() {
+		return "index";
+	}
+	
+	// goHome
+	@RequestMapping("/goHome")
+	public String goHome() {
+		return "index";
 	}
 	
 
