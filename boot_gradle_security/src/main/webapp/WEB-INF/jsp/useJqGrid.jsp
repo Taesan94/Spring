@@ -14,10 +14,13 @@
 <script type="text/javascript" src="/jqgrid/js/i18n/grid.locale-kr.js"></script>
 <script type="text/javascript" src="/jqgrid/js/jquery.jqGrid.min.js"></script>
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
-	<h1> JQGRID를 적용해보자  </h1>
+
+<div align="center">
+<br><br>
+	<h1> JQGRID를 적용해보자  </h1><br>
 	
 	<table id="jqGrid"></table>
 	<div id="jqGridPager"></div>
@@ -41,9 +44,10 @@
                 pager: "#jqGridPager"
             });
         });
-</script>
-<br><br>
+</script> <br><br>
 <a class="btn btn-outline-success" href="/goHome">홈 화면으로가기</a><br><br>
+</div>
+<br><br>
 
 </body>
 </html>

@@ -55,10 +55,16 @@ public class AccountController {
 		return "useJqGrid";
 	}
 	
+	// 공연정보 조회 페이지로 이동.
+	@RequestMapping("/goPerformancePage")
+	public String goPerformancePage() {
+		return "/performanceSelectPage";
+	}
+	
 	// 공공API 호출, 공연정보
 	@RequestMapping("/performanceAPI")
 	public String callAPI_performance() {
-		return "index";
+		return "/performanceAPI";
 	}
 	
 	// goHome
