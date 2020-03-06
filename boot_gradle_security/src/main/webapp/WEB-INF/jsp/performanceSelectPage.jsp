@@ -49,12 +49,12 @@
 			</div>
 	</div>
 
-	<form class="container" style="margin-top:15px;">
+	<form class="container" style="margin-top:15px;" action="/performanceAPI">
 		<div class="row">
 			<div class="col">
 				<div class="form-group">
 					<div class='input-group date' id='datetimepicker6'>
-						<input type='text' class="form-control" /> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span>
+						<input type='text' class="form-control" name="from"/> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span>
 						</span>
 					</div>
 				</div>
@@ -62,46 +62,69 @@
 			<div class="col">
 				<div class="form-group">
 					<div class='input-group date' id='datetimepicker7'>
-						<input type='text' class="form-control" /> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span>
+						<input type='text' class="form-control" name="to" /> <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span>
 						</span>
 					</div>
 				</div>
 			</div>
 
 			<div class="col">
-				<select class="custom-select custom-select-lg mb-3" id="inputGroupSelect01" style="margin-top: 2px;">
-					<option selected>One</option>
-					<option value="1">Two</option>
-					<option value="2">Three</option>
+				<select class="custom-select custom-select-lg mb-3" id="inputGroupSelect01" name="sido" style="margin-top: 2px;">
+					<option value="">전체</option>
+					<option value="9">서울</option>
+					<option value="2">경기</option>
+					<option value="10">세종</option>
+					<option value="7">대전</option>
+					<option value="6">대구</option>
+					<option value="8">부산</option>
+					<option value="5">광주</option>
+					<option value="15">제주</option>
+					<option value="1">강원</option>
+					<option value="3">경남</option>
+					<option value="4">경북</option>
+					<option value="11">울산</option>
+					<option value="12">인천</option>
+					<option value="13">전남</option>
+					<option value="14">전북</option>
+					<option value="16">충남</option>
+					<option value="17">충북</option>
 				</select>
 			</div>
 
 			<div class="col">
-				<select class="custom-select custom-select-lg mb-3" id="inputGroupSelect02" style="margin-top: 2px;">
-					<option selected>One</option>
-					<option value="1">One</option>
-					<option value="2">Two</option>
-					<option value="3">Three</option>
+				<select class="custom-select custom-select-lg mb-3" id="inputGroupSelect02" name="realmCode" style="margin-top: 2px;">
+					<option value="">전체</option>
+					<option value="A000">연극,뮤지컬</option>
+					<option value="B000">음악,콘서트,국악</option>
+					<option value="C000">무용</option>
+					<option value="D000">미술</option>
+					<option value="E000">건축</option>
+					<option value="G000">영상</option>
+					<option value="H000">문학</option>
+					<option value="I000">문화정책</option>
+					<option value="J000">축제문화공간</option>
+					<option value="L000">기타</option>
 				</select>
 
 			</div>
 
-			<div class="col col-lg-2"><button type="button" class="btn btn-secondary">검색</button></div>
+			<div class="col col-lg-2"><input type="submit" class="btn btn-secondary" value="검색"></div>
 		</div>
 	</form>
 </div>
 
 
 <script type="text/javascript">
-	$(document).ready(function() {
+// 달력보여주기위함
+$(document).ready(function() {
 		$(function() {
 			$('#datetimepicker6').datetimepicker({
-				format : 'YYYY/MM/DD'
+				format : 'YYYYMMDD'
 			});
 
 			$('#datetimepicker7').datetimepicker({
 				useCurrent : false, //Important! See issue #1075
-				format : 'YYYY/MM/DD'
+				format : 'YYYYMMDD'
 			});
 
 			$("#datetimepicker6").on("dp.change", function(e) {

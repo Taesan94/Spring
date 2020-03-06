@@ -52,6 +52,8 @@ dependencies {
 	// log4j2만 추가했더니 , SLF4J: Failed to load class “org.slf4j.impl.StaticLoggerBinder” 에러나서 추가하니깐 괜찮아짐.
 	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
 	
+	// Xml -> Json
+	compile group: 'org.json', name: 'json', version: '20190722'
 	
 }
 
