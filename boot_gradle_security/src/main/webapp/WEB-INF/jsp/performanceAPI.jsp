@@ -4,20 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<%
-	JSONArray perforList = new JSONArray();
-
-	perforList = (JSONArray) request.getAttribute("perforList");
-
-	if (perforList != null) {
-		for (int i = 0; i < perforList.length(); i++) {
-			JSONObject perfor = (JSONObject) perforList.get(i);
-			System.out.println(" 여기는 jsp페이지 " + perfor.toString());
-		}
-	}
-%>
-
-
 <!DOCTYPE html>
 <html>
 
