@@ -3,7 +3,9 @@ package com.boot.test1.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ import com.boot.test1.vo.PerformanceInfo;
 public class AccountController {
 
 	// 공용 API 사용을위한 발급 KEY
-	private String PERFORMANCE_KEY = "key값 노출되지 않도록 !";
+	private String PERFORMANCE_KEY = "KEY 값 노출 없이..";
 
 	@Autowired
 	AccountService accountService;
@@ -73,7 +75,13 @@ public class AccountController {
 	public String goPerformancePage() {
 		return "/performanceSelectPage";
 	}
-
+	
+	// 검색 조회 페이지로 이동.
+	@RequestMapping("/goSearchPage")
+	public String goSearchPage() {
+		return "/searchPage";
+	}
+	
 	// 공공API 호출, 공연정보
 	@RequestMapping("/performanceAPI")
 	public String callAPI_performance(HttpServletRequest request) throws IOException {
@@ -89,7 +97,7 @@ public class AccountController {
 		urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=" + PERFORMANCE_KEY); /*Service Key*/
 		urlBuilder.append("&" + URLEncoder.encode("sido","UTF-8") + "=" + URLEncoder.encode(sido, "UTF-8")); /**/
 		urlBuilder.append("&" + URLEncoder.encode("realmCode","UTF-8") + "=" + URLEncoder.encode(realmCode, "UTF-8")); /*코드*/
-		urlBuilder.append("&" + URLEncoder.encode("cPage","UTF-8") + "=" + URLEncoder.encode("15", "UTF-8")); /*코드*/
+		urlBuilder.append("&" + URLEncoder.encode("cPage","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*코드*/
 		urlBuilder.append("&" + URLEncoder.encode("rows","UTF-8") + "=" + URLEncoder.encode("4", "UTF-8")); /**/
 		urlBuilder.append("&" + URLEncoder.encode("from","UTF-8") + "=" + URLEncoder.encode(from, "UTF-8")); /**/
 		urlBuilder.append("&" + URLEncoder.encode("to","UTF-8") + "=" + URLEncoder.encode(to, "UTF-8")); /**/
@@ -144,6 +152,8 @@ public class AccountController {
 		int cPage = jsonResponseMsgBody.getInt("cPage");
 
 		log.info(" totalCount : " + totalCount + ", maxPage : " + maxPage + " lastpageNum : " + lastPageNum);
+		
+		log.info( " jsonResponseMsgBody : " + jsonResponseMsgBody.toString());
 
 		if ( totalCount == 0 ) {
 			log.info(" 해당 조건에 맞는 공연정보가 존재하지 않습니다.");
@@ -167,7 +177,7 @@ public class AccountController {
 				}
 			}
 			
-			request.setAttribute("performanceInfo", performanceInfo);
+			request.setAttribute("performanceInfos", performanceInfo);
 		}
 		return "performanceAPI";
 	}
@@ -186,6 +196,58 @@ public class AccountController {
 		info.setThumbnail(perforInfo.getString("thumbnail"));
 		
 		return info;
+	}
+	
+	@RequestMapping("/goDetail")
+	public String detail(HttpServletRequest request, int seq) throws IOException {
+		
+		log.info(" seq : " + seq );
+		
+	    StringBuilder urlBuilder = new StringBuilder("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/d/"); /*URL*/
+        urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=" +PERFORMANCE_KEY); /*Service Key*/
+        urlBuilder.append("&" + URLEncoder.encode("seq","UTF-8") + "=" + URLEncoder.encode(String.valueOf(seq), "UTF-8")); /**/
+        
+        URL url = new URL(urlBuilder.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/json");
+        System.out.println("Response code: " + conn.getResponseCode());
+        BufferedReader rd;
+        
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        String line;
+        
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        
+        rd.close();
+        conn.disconnect();
+        System.out.println(sb.toString());
+        
+		JSONObject jsonObject =  XML.toJSONObject(sb.toString());
+		JSONObject jsonResponse = jsonObject.getJSONObject("response");
+		JSONObject jsonResponseMsgBody = jsonResponse.getJSONObject("msgBody");
+		
+		JSONObject perforInfo = (JSONObject)jsonResponseMsgBody.get("perforInfo");
+		
+		request.setAttribute("title", perforInfo.get("title"));
+		request.setAttribute("startDate", perforInfo.getInt("startDate"));
+		request.setAttribute("endDate", perforInfo.getInt("endDate"));
+		request.setAttribute("place" , perforInfo.get("place"));
+		request.setAttribute("area", perforInfo.get("area"));
+		request.setAttribute("price", perforInfo.get("price"));
+		request.setAttribute("phone", perforInfo.get("phone"));
+		request.setAttribute("imgUrl", perforInfo.get("imgUrl"));
+		request.setAttribute("placeUrl", perforInfo.get("placeUrl"));
+
+		return "performanceDetail";
 	}
 
 	// goHome

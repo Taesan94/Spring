@@ -29,35 +29,31 @@
 		
 		<h3>공연정보</h3>
 
-		<c:forEach items="${performanceInfos}" var="row" varStatus="status">
-
 			<table border="1">
 				<tr>
-				<th>thumbnail</th>
-				<th>seq</th>
+				<td>imgUrl</td>
 				<th>title</th>
 				<th>startDate</th>
 				<th>endDate</th>
 				<th>place</th>
-				<th>realmName</th>
 				<th>area</th>
-				<th>상세</th>
+				<th>가격</th>
+				<th>연락처</th>
+				<th>placeUrl</th>
 				</tr>
 				<tr>
-					<td><img width="100" height="100" src="${row.thumbnail}" /></td>
-					<td>${row.seq}</td>
-					<td>${row.title}</td>
-					<td>${row.startDate}</td>
-					<td>${row.endDate}</td>
-					<td>${row.place}</td>
-					<td>${row.realmName}</td>
-					<td>${row.area}</td>
-					<td><a href="/goDetail?seq=${row.seq}">Detail</a></td>
+					<td><img width="100" height="100" src="${imgUrl}" /></td>
+					<td>${title}</td>
+					<td>${startDate}</td>
+					<td>${endDate}</td>
+					<td>${place}</td>
+					<td>${area}</td>
+					<td>${price}</td>
+					<td>${phone}</td>
+					<td>${placeUrl}</td>
 				</tr>
 				<br>
 			</table>
-
-		</c:forEach>
 
 
 		<br>
