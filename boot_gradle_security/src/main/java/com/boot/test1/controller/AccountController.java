@@ -3,19 +3,21 @@ package com.boot.test1.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +27,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.boot.test1.javaCode.APIUtills;
 import com.boot.test1.mapper.AccountMapper;
 import com.boot.test1.service.AccountService;
+import com.boot.test1.vo.CoronaVirusNews;
 import com.boot.test1.vo.PerformanceInfo;
 
 @Controller
 public class AccountController {
 
 	// 공용 API 사용을위한 발급 KEY
-	private String PERFORMANCE_KEY = "KEY 값 노출 없이..";
-
+	private String PERFORMANCE_KEY = "1";
+	
+	// 다음 API 사용을위한 id, ( 비로그인 )
+	private String clientId = "2"; //애플리케이션 클라이언트 아이디값"
+	private String clientSecret = "3"; //애플리케이션 클라이언트 시크릿값"
+	
+	private APIUtills apiUtills = new APIUtills();
+	
 	@Autowired
 	AccountService accountService;
 
@@ -131,7 +141,8 @@ public class AccountController {
 		System.out.println(sb.toString());
 
 		JSONObject jsonObject =  XML.toJSONObject(sb.toString());
-		String jsonString = jsonObject.toString();
+
+		// String jsonString = jsonObject.toString();
 		// System.out.println(" [ json 변환 ] " + jsonString );
 
 		JSONObject jsonResponse = jsonObject.getJSONObject("response");
@@ -152,7 +163,6 @@ public class AccountController {
 		int cPage = jsonResponseMsgBody.getInt("cPage");
 
 		log.info(" totalCount : " + totalCount + ", maxPage : " + maxPage + " lastpageNum : " + lastPageNum);
-		
 		log.info( " jsonResponseMsgBody : " + jsonResponseMsgBody.toString());
 
 		if ( totalCount == 0 ) {
@@ -165,14 +175,14 @@ public class AccountController {
 			if ( lastPageNum == 1 && cPage == maxPage || totalCount == 1 || rows == 1 ) {
 				log.info(" 데이터가 1건입니다.");
 				JSONObject perforInfo = (JSONObject)jsonResponseMsgBody.get("perforList");
-				performanceInfo.add(makeJSONresult(perforInfo));
+				performanceInfo.add(apiUtills.makePeformerJsonResult(perforInfo));
 
 			}else {
 				JSONArray perforList = (JSONArray)jsonResponseMsgBody.get("perforList");
 
 				for ( int i = 0 ; i < perforList.length(); i++ ) {
 					JSONObject perforInfo = (JSONObject)perforList.get(i);
-					performanceInfo.add(makeJSONresult(perforInfo));
+					performanceInfo.add(apiUtills.makePeformerJsonResult(perforInfo));
 					log.info( i + " 번 째 perforValue : " + perforInfo.toString());
 				}
 			}
@@ -180,22 +190,6 @@ public class AccountController {
 			request.setAttribute("performanceInfos", performanceInfo);
 		}
 		return "performanceAPI";
-	}
-	
-	private PerformanceInfo makeJSONresult(JSONObject perforInfo) {
-		
-		PerformanceInfo info = new PerformanceInfo();
-
-		info.setSeq( String.valueOf(perforInfo.getInt("seq"))) ;
-		info.setStartDate(String.valueOf(perforInfo.getInt("startDate")));
-		info.setEndDate(String.valueOf(perforInfo.getInt("endDate")));
-		info.setTitle(perforInfo.getString("title"));
-		info.setPlace(perforInfo.getString("place"));
-		info.setRealmName(perforInfo.getString("realmName"));
-		info.setArea(perforInfo.getString("area"));
-		info.setThumbnail(perforInfo.getString("thumbnail"));
-		
-		return info;
 	}
 	
 	@RequestMapping("/goDetail")
@@ -248,6 +242,55 @@ public class AccountController {
 		request.setAttribute("placeUrl", perforInfo.get("placeUrl"));
 
 		return "performanceDetail";
+	}
+	
+	// 검색 조회 페이지로 이동.
+	@RequestMapping("/searchAPI")
+	public String searchAPI(HttpServletRequest request) throws IOException {
+
+		StringBuilder urlBuilder = new StringBuilder("https://openapi.naver.com/v1/search/news.json"); /*URL*/
+		urlBuilder.append("?" + URLEncoder.encode("query","UTF-8") + "="+ URLEncoder.encode("코로나", "UTF-8")); /* 검색 키워드  */
+		urlBuilder.append("&" + URLEncoder.encode("display","UTF-8") + "=" + URLEncoder.encode("30", "UTF-8")); /* 출력건수, 10(기본), 100(최대) */
+		urlBuilder.append("&" + URLEncoder.encode("start","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /* 검색 시작위치, 1(기본), 1000(최대) */
+		urlBuilder.append("&" + URLEncoder.encode("sort","UTF-8") + "=" + URLEncoder.encode("date", "UTF-8")); /* 정렬 옵션, sim(유사도순), date(날짜순) */
+
+		Map<String, String> requestHeaders = new HashMap<>();
+		requestHeaders.put("X-Naver-Client-Id", clientId);
+		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+
+		String responseBody = apiUtills.get(urlBuilder.toString(),requestHeaders);
+		
+		org.json.simple.JSONObject jsonObject = new org.json.simple.JSONObject();
+
+		try {
+			JSONParser parser = new JSONParser();
+			jsonObject = (org.json.simple.JSONObject)parser.parse(responseBody);
+		}catch(ParseException e) {
+			e.printStackTrace();
+		}
+		org.json.simple.JSONArray items = (org.json.simple.JSONArray)jsonObject.get("items");
+		
+		List<CoronaVirusNews> newsInfos = new ArrayList<CoronaVirusNews>();
+		
+		for ( int i=0; i < items.size(); i++ ) {
+			
+			org.json.simple.JSONObject newsInfo = (org.json.simple.JSONObject)items.get(i);
+			CoronaVirusNews news = new CoronaVirusNews();
+			
+			news.setTitle(newsInfo.get("title").toString());
+			news.setOriginallink(newsInfo.get("originallink").toString());
+			news.setLink(newsInfo.get("link").toString());
+			news.setDescription(newsInfo.get("description").toString());
+			news.setPubDate(newsInfo.get("pubDate").toString());
+			
+			newsInfos.add(news);
+		}
+		
+		request.setAttribute("newsInfos", newsInfos);
+
+		System.out.println(responseBody);
+		
+		return "/searchAPI";
 	}
 
 	// goHome
