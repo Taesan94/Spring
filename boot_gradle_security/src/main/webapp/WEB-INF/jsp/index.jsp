@@ -14,6 +14,7 @@
 <a class="btn btn-outline-primary" href="/useJqGrid" style="margin-top: 20px;">Use JqGrid</a><br>
 <a class="btn btn-outline-primary" href="/goPerformancePage"  style="margin-top: 20px;">Use 공연정보 API</a><br>
 <a class="btn btn-outline-primary" href="/searchAPI"  style="margin-top: 20px;">Use 검색 API</a><br>
+<a class="btn btn-outline-primary" href="/maskAPI"  style="margin-top: 20px;">마스크 정보검색</a><br>
 
 </div>
 

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import com.boot.test1.vo.MaskInfos;
 import com.boot.test1.vo.PerformanceInfo;
 
 /**
@@ -106,6 +107,35 @@ public class APIUtills {
 		info.setThumbnail(perforInfo.getString("thumbnail"));
 		
 		return info;
+	}
+	
+	/**
+	 * mask정보 JSON만들기 
+	 * @param perforInfo
+	 * @return
+	 */
+	public MaskInfos makeMaskJsonResult(org.json.simple.JSONObject maskInfo) {
+		
+		MaskInfos mask = new MaskInfos();
+		
+		mask.setAddr(checkNull(maskInfo.get("addr")).toString());
+		mask.setCode(checkNull(maskInfo.get("code")).toString());
+		mask.setCreated_at(checkNull(maskInfo.get("created_at")).toString());
+		mask.setLat(checkNull(maskInfo.get("lat")).toString());
+		mask.setLng(checkNull(maskInfo.get("lng")).toString());
+		mask.setName(checkNull(maskInfo.get("name")).toString());
+		mask.setRemain_stat(checkNull(maskInfo.get("remain_stat")).toString());
+		mask.setStock_at(checkNull(maskInfo.get("stock_at")).toString());
+		mask.setType(checkNull(maskInfo.get("type")).toString());
+		
+		return mask;
+	}
+	
+	private Object checkNull( Object word ) {
+		if ( word == null ) {
+			return ""; 
+		}
+		return word;
 	}
 	
 
