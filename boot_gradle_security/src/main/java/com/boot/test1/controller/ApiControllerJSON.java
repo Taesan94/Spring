@@ -167,6 +167,53 @@ public class ApiControllerJSON {
 			return "maskAPI";
 		}
 		
+		// mask정보 
+				@RequestMapping("/maskAPIDetail")
+				public String maskDetail(HttpServletRequest request) throws IOException {
+					
+					// 위도, 경도로 조회
+					StringBuilder urlBuilder = new StringBuilder("https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByGeo/json"); /*URL*/
+
+					String lat = (String)request.getAttribute("lat");
+					String lng = (String)request.getAttribute("lng");
+					
+					log.info(" lat : " + lat + ", lng : " + lng );
+					
+			        urlBuilder.append("?" + "lat=" + lat);
+			        urlBuilder.append("&" + "lng=" + lng);
+			        urlBuilder.append("&" + "m=" + 1); // 1m로 설정해야 지정한 가게만 나옴..
+					
+					URL url = new URL(urlBuilder.toString());
+					HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+					conn.setRequestMethod("GET");
+					conn.setRequestProperty("Content-type", "application/json");
+
+					System.out.println("Response code: " + conn.getResponseCode());
+
+					BufferedReader rd;
+
+					if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+						rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+					} else {
+						rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+					}
+
+					StringBuilder sb = new StringBuilder();
+					String line;
+
+					while ((line = rd.readLine()) != null) {
+						sb.append(line);
+					}
+
+					rd.close();
+					conn.disconnect();
+
+					System.out.println(sb.toString());
+					
+					return "maskAPI";
+				}
+		
 		
 	
 }

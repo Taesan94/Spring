@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,23 +15,21 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.boot.test1.vo.MaskInfos;
-
 public class ApiTest3 {
 	
 	private static Logger log = LoggerFactory.getLogger("ApiTest3");
 	
-	private final static String SERVICE_KEY = "1";
-	private final static String DOMAIN_URL = "2";
+	private final static String SERVICE_KEY = "1A56913E-E5F4-34E9-B111-F807AAB7E2E3";
+	private final static String DOMAIN_URL = "http://www.test.com";
 
     public static void main(String[] args) throws IOException {
     	
-    	sigungu(); // 공연정보 API 테스트
-    	// searchAPI();
+    	// sigungu_JSON(); // 공연정보 API 테스트
+    	sigungu_XML();
     	
     }
     
-    private static void sigungu() throws IOException {
+    private static void sigungu_JSON() throws IOException {
     	
     	 StringBuilder urlBuilder = new StringBuilder("http://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_ADSIGG_INFO&key="+SERVICE_KEY+"&domain="+DOMAIN_URL); /*URL*/
          
@@ -82,7 +78,10 @@ public class ApiTest3 {
 				return ;
 			}
 			
-			// 여기에 total 가져오는 코드로 테스트 한번해보자.. !! 
+			// 여기에 total 가져오는 코드로 테스트 한번해보자.. !!
+			JSONObject page = (JSONObject)response.get("page");
+			String total = page.get("total").toString();
+			System.out.println(" total : " + total );
 			
 			JSONObject result = (JSONObject)response.get("result");
 			JSONObject featureCollection = (JSONObject)result.get("featureCollection");
@@ -134,4 +133,38 @@ public class ApiTest3 {
 				
 			}//for 
     }
+    
+    private static void sigungu_XML() throws IOException {
+    	
+   	 StringBuilder urlBuilder = new StringBuilder("http://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_ADSIGG_INFO&key="+SERVICE_KEY+"&domain="+DOMAIN_URL); /*URL*/
+        
+   	 String area ="용인";
+   	 
+        urlBuilder.append("&attrFilter=sig_kor_nm:like:"+ URLEncoder.encode(area, "UTF-8")); /**/
+        urlBuilder.append("&format=xml");
+        
+        System.out.println(urlBuilder.toString());
+
+        URL url = new URL(urlBuilder.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/xml");
+        System.out.println("Response code: " + conn.getResponseCode());
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+        
+        System.out.println(sb.toString());
+        
+   }
 }
