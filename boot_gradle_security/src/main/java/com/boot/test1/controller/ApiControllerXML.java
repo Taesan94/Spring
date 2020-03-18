@@ -154,7 +154,7 @@ public class ApiControllerXML {
         
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
+        }else {
             rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
         }
         

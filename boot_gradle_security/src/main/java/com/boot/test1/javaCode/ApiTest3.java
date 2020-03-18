@@ -15,6 +15,10 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 시군구정보 API
+ *
+ */
 public class ApiTest3 {
 	
 	private static Logger log = LoggerFactory.getLogger("ApiTest3");
@@ -24,8 +28,8 @@ public class ApiTest3 {
 
     public static void main(String[] args) throws IOException {
     	
-    	// sigungu_JSON(); // 공연정보 API 테스트
-    	sigungu_XML();
+    	 sigungu_JSON(); // 시군구정보조회
+    	// sigungu_XML();
     	
     }
     
