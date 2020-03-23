@@ -31,12 +31,9 @@ public class ApiControllerJSON {
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	// 공용 API 사용을위한 발급 KEY
-	private String PERFORMANCE_KEY = "1";
-	
-	// 다음 API 사용을위한 id, ( 비로그인 )
-	private String clientId = "2"; //애플리케이션 클라이언트 아이디값"
-	private String clientSecret = "3"; //애플리케이션 클라이언트 시크릿값"
+	// 네이버 API 사용을위한 id, ( 비로그인 )
+	private String clientId = "18dA2CIiQ4hNInsOXOmF"; //애플리케이션 클라이언트 아이디값"
+	private String clientSecret = "Rm2cQ6iht1"; //애플리케이션 클라이언트 시크릿값"
 	
 	private APIUtills apiUtills = new APIUtills();
 	

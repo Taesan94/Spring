@@ -58,6 +58,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 	// for String -> Json
 	compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+	
+	// https://mvnrepository.com/artifact/org.jsoup/jsoup
+	// for Crawling , HTML Parser 
+	compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
 }
 
 
