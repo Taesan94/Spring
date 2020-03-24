@@ -37,17 +37,14 @@ public class CrawlingTest {
 		// 이동경로
 		Elements patientRoutes = patients.select(".tdl");
 
-		List<CoronaPatients> patientList = new ArrayList<CoronaPatients>();
-		List<PatientsRoute> routeList = new ArrayList<PatientsRoute>();
-
 		// 환자정보 건수 == 이동경로 건수 동일한지 확인.
 		if ( patient.size() != patientRoutes.size() ) {
 			System.out.println(" [ ### Crawling Error ### ], 환자정보("+patient.size()+")와 이동경로+"+patientRoutes.size()+")의 건수가 동일하지않습니다");
 		}else {
 			System.out.println("============================== Crawling Start ==============================");
 
-			//			List<CoronaPatients> patientList = new ArrayList<CoronaPatients>();
-			//			List<PatientsRoute> routeList = new ArrayList<PatientsRoute>();
+			List<CoronaPatients> patientList = new ArrayList<CoronaPatients>();
+			List<PatientsRoute> routeList = new ArrayList<PatientsRoute>();
 
 			// 모든 환자정보 수만큼 for
 			for ( int i = 0; i < patient.size(); i++ ) {
@@ -75,31 +72,54 @@ public class CrawlingTest {
 					}else if(j==5) {
 						patientVo.setHospital(info);
 					}
-				}
+				}//for2
+				
+				patientList.add(patientVo);
 
 				// 환자 1명의 이동경로
 				Elements patientRoute = patientRoutes.get(i).select("li");
 
 				int serialNumber = patientVo.getSerialNumber();
-				PatientsRoute routeVo = new PatientsRoute();
 
 				for ( int k = 0 ; k < patientRoute.size(); k++ ) {
+					
+					PatientsRoute routeVo = new PatientsRoute();
 					String info = patientRoute.get(k).text();
 
 					routeVo.setSerialNumber(serialNumber);
-					routeVo.setRouteSeq(k);
+					routeVo.setRouteSeq(k+1);
 					routeVo.setRouteDetail(info);
-				}
-				patientList.add(patientVo);
-				routeList.add(routeVo);
-			}
+					
+					routeList.add(routeVo);
+					
+				}//for3
+			}//for 1
+			
+			// show( 5, patientList, routeList);
+			
 		}// else
 
-		for ( int i = 0 ; i < 3; i ++ ) {
-			System.out.println(i + " 번째 patient : " + patientList.get(i).toString());
-			System.out.println(i + " 번째 routeList : " + routeList.get(i).toString());
-		}
+	}
+	
+	static int j = 0 ;
 
+	private static void show( int count, List<CoronaPatients> patientList , List<PatientsRoute> routeList  ) {
+		for ( int i = 0 ; i < count; i ++ ) {
+			
+			CoronaPatients p = patientList.get(i);
+			PatientsRoute r = routeList.get(j);
+			
+			System.out.println(i + " 번째 patient : " + p.toString());
+			
+//			System.out.println(" p.getSerialNumber() : " + p.getSerialNumber() + ", r.getSerialNumber() : " + r.getSerialNumber());
+//			System.out.println(" boolean : "  + p.getSerialNumber().equals(r.getSerialNumber()) );
+			
+			int seq = 0;
+			while ( j < routeList.size() && p.getSerialNumber().equals( r.getSerialNumber()) ) {
+				System.out.println(p.getSerialNumber() + "의 " + seq++ +"번째 경로 : " + routeList.get(j).toString());
+				r = routeList.get(++j);
+			}
+		}
 	}
 
 }
