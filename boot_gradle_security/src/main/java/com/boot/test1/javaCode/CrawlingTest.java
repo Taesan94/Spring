@@ -1,11 +1,15 @@
 package com.boot.test1.javaCode;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import com.boot.test1.vo.CoronaPatients;
+import com.boot.test1.vo.PatientsRoute;
 
 public class CrawlingTest {
 
@@ -24,74 +28,77 @@ public class CrawlingTest {
 			e.printStackTrace();
 		}
 
+		// 환자정보리스트
 		Elements patients = doc.select("div#patients");
 
+		// 환자정보 ( 연번(#환자번호), 인적사항(성별,출생년도), 감염경로, 확진일, 거주지, 격리시설 )
 		Elements patient = patients.select(".patient");
 
+		// 이동경로
+		Elements patientRoutes = patients.select(".tdl");
 
+		List<CoronaPatients> patientList = new ArrayList<CoronaPatients>();
+		List<PatientsRoute> routeList = new ArrayList<PatientsRoute>();
 
-		System.out.println("=================================================================================");
+		// 환자정보 건수 == 이동경로 건수 동일한지 확인.
+		if ( patient.size() != patientRoutes.size() ) {
+			System.out.println(" [ ### Crawling Error ### ], 환자정보("+patient.size()+")와 이동경로+"+patientRoutes.size()+")의 건수가 동일하지않습니다");
+		}else {
+			System.out.println("============================== Crawling Start ==============================");
 
-		// System.out.println("patient : " + patient.get(0));
+			//			List<CoronaPatients> patientList = new ArrayList<CoronaPatients>();
+			//			List<PatientsRoute> routeList = new ArrayList<PatientsRoute>();
 
-		Elements patient_01 = patient.get(0).select("td");
-		for ( int i = 0 ; i < patient_01.size(); i++ ) {
+			// 모든 환자정보 수만큼 for
+			for ( int i = 0; i < patient.size(); i++ ) {
 
-			Element patientE = patient_01.get(i);
-			
-			if( i == 0 ) {
-				String[] splitS = patientE.text().split(" ");
-				System.out.println(splitS[0]);
-				System.out.println(splitS[1].substring(1,6));
-			}else
-				System.out.println(patientE.text());
+				// 환자 1명의 정보
+				Elements patientInfo = patient.get(i).select("td");
+
+				CoronaPatients patientVo = new CoronaPatients();
+				for ( int j = 0 ; j < patientInfo.size(); j++ ) {
+
+					String info = patientInfo.get(j).text();
+
+					if(j==0) {
+						String[] infoSplit = info.split(" ");
+						patientVo.setSerialNumber(Integer.valueOf(infoSplit[0]));
+						patientVo.setPatientNumber(infoSplit[1].substring(1,infoSplit[1].length()));
+					}else if(j==1) {
+						patientVo.setPatientInfos(info);
+					}else if(j==2) {
+						patientVo.setInfectionRoute(info);
+					}else if(j==3) {
+						patientVo.setDefiniteDate(info);
+					}else if(j==4) {
+						patientVo.setAddress(info);
+					}else if(j==5) {
+						patientVo.setHospital(info);
+					}
+				}
+
+				// 환자 1명의 이동경로
+				Elements patientRoute = patientRoutes.get(i).select("li");
+
+				int serialNumber = patientVo.getSerialNumber();
+				PatientsRoute routeVo = new PatientsRoute();
+
+				for ( int k = 0 ; k < patientRoute.size(); k++ ) {
+					String info = patientRoute.get(k).text();
+
+					routeVo.setSerialNumber(serialNumber);
+					routeVo.setRouteSeq(k);
+					routeVo.setRouteDetail(info);
+				}
+				patientList.add(patientVo);
+				routeList.add(routeVo);
+			}
+		}// else
+
+		for ( int i = 0 ; i < 3; i ++ ) {
+			System.out.println(i + " 번째 patient : " + patientList.get(i).toString());
+			System.out.println(i + " 번째 routeList : " + routeList.get(i).toString());
 		}
-
-		Elements tdl = patients.select(".tdl");
-
-		// System.out.println("tdl : " + tdl.get(0));
-
-		Elements tdl_1 = tdl.get(0).select("li");
-		for ( int i = 0 ; i < tdl_1.size(); i++ ) {
-			System.out.println(tdl_1.get(i).text());
-		}
-
-		System.out.println(" tdl Info : " + tdl.size() );
-
-		System.out.println(" patient Info : " + patient.size() );
-
-		// System.out.println("tdl : " + tdl.text());
-
-		//		for ( Element el : element.select("td")) {
-		//				System.out.println(el.text());
-		//		}
-
-
-		//		Elements divs = element.select("div");
-		//		
-		//		
-		//		for(Element el : divs.select("tbody")) { 
-		//			
-		//			for ( Element el2 : el.select("tr")) {
-		//				
-		//				String row = el2.select("th").text();
-		//				System.out.println(" row : " + row );
-		//				Elements data = el2.select("td");
-		//				
-		//				for ( Element td : data ) {
-		//					System.out.println(td.text());
-		//				}
-		//				
-		//				
-		//				// System.out.println(" row : " + row + "\n" + " data : " + data );
-		//			}
-		//			
-		//		}
-
-
-
-
-
 
 	}
 
