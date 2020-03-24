@@ -1,6 +1,7 @@
 /boot_gradle_security/src/main/resources/application.yml
 copyCmd
 /boot_gradle_security/bin/
-/boot_gradle_security/src/main/java/com/boot/test1/javaCode/ApiTest.java
-/boot_gradle_security/src/main/java/com/boot/test1/javaCode/ApiTest2.java
+/boot_gradle_security/src/main/java/com/boot/test1/javaCode/ApiTest*.java
+
+
 
