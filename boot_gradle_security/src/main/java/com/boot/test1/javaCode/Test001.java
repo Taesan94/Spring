@@ -3,6 +3,10 @@ package com.boot.test1.javaCode;
 public class Test001 {
 
 	public static void main(String[] args) {
+		
+		String sido = "sido0101";
+		sido = sido.substring(3,5);
+		System.out.println(" sido : " + sido );
 
 		String date = "3월 16일 15:00 뉴욕 → 인천국제공항(대한항공KE082)" ;
 		

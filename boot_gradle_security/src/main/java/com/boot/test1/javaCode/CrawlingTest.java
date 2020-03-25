@@ -56,12 +56,16 @@ public class CrawlingTest {
 				for ( int j = 0 ; j < patientInfo.size(); j++ ) {
 
 					String info = patientInfo.get(j).text();
+					
+					info = info.replaceAll("'", "");
+					info = info.replaceAll("‵", "");
 
 					if(j==0) {
 						String[] infoSplit = info.split(" ");
 						patientVo.setSerialNumber(Integer.valueOf(infoSplit[0]));
-						patientVo.setPatientNumber(infoSplit[1].substring(1,infoSplit[1].length()));
+						patientVo.setPatientNumber(infoSplit[1].substring(1,infoSplit[1].length()-1));
 					}else if(j==1) {
+						// System.out.println(" info : " + info );
 						patientVo.setPatientInfos(info);
 					}else if(j==2) {
 						patientVo.setInfectionRoute(info);
@@ -88,38 +92,14 @@ public class CrawlingTest {
 
 					routeVo.setSerialNumber(serialNumber);
 					routeVo.setRouteSeq(k+1);
-
-
-					String visitedDate = "확인중";
-					String routeDetail = info;
-
-					if ( info.length() > 12 ) {
-
-						int typeCheck = info.indexOf("~");
-						int index = info.indexOf("일")+1;
-
-						// ~가존재하는경우, M월 DD일~ 의경우 index는 6이지만 띄어쓰기를 고려하여 2의여유를 더 주었음.
-						if ( typeCheck != -1 && typeCheck < 8) {
-							
-							// 기본10자면 M월DD일~MM일이 가능하지만, 띄어쓰기가 규칙적이지않아 여유있게 11을 줌.
-							String dateCheck =info.substring(0,11);
-							
-							// 뒤에있는 "일"의 index를 가지고온다.
-							index = dateCheck.lastIndexOf("일") +1;
-						}
-
-						visitedDate = info.substring(0,index).trim();
-						routeDetail = info.substring(index,info.length()).trim();
-					}
-
-					routeVo.setVisitedDate(visitedDate);
-					routeVo.setRouteDetail(routeDetail);
+					routeVo.setRouteDetail(info);
 
 					routeList.add(routeVo);
 
 				}//for3
 			}//for 1
-			show( 20, patientList, routeList);
+			// show( 20, patientList, routeList);
+			
 		}// else
 
 	}
