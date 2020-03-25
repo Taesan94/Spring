@@ -39,7 +39,7 @@ public class CrawlingTest {
 
 		// 환자정보 건수 == 이동경로 건수 동일한지 확인.
 		if ( patient.size() != patientRoutes.size() ) {
-			System.out.println(" [ ### Crawling Error ### ], 환자정보("+patient.size()+")와 이동경로+"+patientRoutes.size()+")의 건수가 동일하지않습니다");
+			System.out.println(" [ ### Crawling Error ### ], 환자정보("+patient.size()+")와 이동경로("+patientRoutes.size()+")의 건수가 동일하지않습니다");
 		}else {
 			System.out.println("============================== Crawling Start ==============================");
 
@@ -73,7 +73,7 @@ public class CrawlingTest {
 						patientVo.setHospital(info);
 					}
 				}//for2
-				
+
 				patientList.add(patientVo);
 
 				// 환자 1명의 이동경로
@@ -82,38 +82,61 @@ public class CrawlingTest {
 				int serialNumber = patientVo.getSerialNumber();
 
 				for ( int k = 0 ; k < patientRoute.size(); k++ ) {
-					
+
 					PatientsRoute routeVo = new PatientsRoute();
 					String info = patientRoute.get(k).text();
 
 					routeVo.setSerialNumber(serialNumber);
 					routeVo.setRouteSeq(k+1);
-					routeVo.setRouteDetail(info);
-					
+
+
+					String visitedDate = "확인중";
+					String routeDetail = info;
+
+					if ( info.length() > 12 ) {
+
+						int typeCheck = info.indexOf("~");
+						int index = info.indexOf("일")+1;
+
+						// ~가존재하는경우, M월 DD일~ 의경우 index는 6이지만 띄어쓰기를 고려하여 2의여유를 더 주었음.
+						if ( typeCheck != -1 && typeCheck < 8) {
+							
+							// 기본10자면 M월DD일~MM일이 가능하지만, 띄어쓰기가 규칙적이지않아 여유있게 11을 줌.
+							String dateCheck =info.substring(0,11);
+							
+							// 뒤에있는 "일"의 index를 가지고온다.
+							index = dateCheck.lastIndexOf("일") +1;
+						}
+
+						visitedDate = info.substring(0,index).trim();
+						routeDetail = info.substring(index,info.length()).trim();
+					}
+
+					routeVo.setVisitedDate(visitedDate);
+					routeVo.setRouteDetail(routeDetail);
+
 					routeList.add(routeVo);
-					
+
 				}//for3
 			}//for 1
-			
-			// show( 5, patientList, routeList);
-			
+			show( 20, patientList, routeList);
 		}// else
 
 	}
-	
+
 	static int j = 0 ;
 
 	private static void show( int count, List<CoronaPatients> patientList , List<PatientsRoute> routeList  ) {
 		for ( int i = 0 ; i < count; i ++ ) {
-			
+
 			CoronaPatients p = patientList.get(i);
 			PatientsRoute r = routeList.get(j);
-			
+
 			System.out.println(i + " 번째 patient : " + p.toString());
-			
-//			System.out.println(" p.getSerialNumber() : " + p.getSerialNumber() + ", r.getSerialNumber() : " + r.getSerialNumber());
-//			System.out.println(" boolean : "  + p.getSerialNumber().equals(r.getSerialNumber()) );
-			
+
+			//			System.out.println(" p.getSerialNumber() : " + p.getSerialNumber() + ", r.getSerialNumber() : " + r.getSerialNumber());
+			//			System.out.println(" boolean : "  + p.getSerialNumber().equals(r.getSerialNumber()) );
+
 			int seq = 0;
 			while ( j < routeList.size() && p.getSerialNumber().equals( r.getSerialNumber()) ) {
 				System.out.println(p.getSerialNumber() + "의 " + seq++ +"번째 경로 : " + routeList.get(j).toString());

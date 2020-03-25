@@ -9,6 +9,9 @@ public class PatientsRoute {
 	// 경로seq 
 	private Integer routeSeq;
 
+	// 경로 방문일자 
+	private String visitedDate;
+
 	// 경로상세 
 	private String routeDetail;
 
@@ -28,6 +31,14 @@ public class PatientsRoute {
 		this.routeSeq = routeSeq;
 	}
 
+	public String getVisitedDate() {
+		return visitedDate;
+	}
+
+	public void setVisitedDate(String visitedDate) {
+		this.visitedDate = visitedDate;
+	}
+
 	public String getRouteDetail() {
 		return routeDetail;
 	}
@@ -38,8 +49,8 @@ public class PatientsRoute {
 
 	@Override
 	public String toString() {
-		return "PatientsRoute [serialNumber=" + serialNumber + ", routeSeq=" + routeSeq + ", routeDetail=" + routeDetail
-				+ "]";
+		return "Patientsroute [serialNumber=" + serialNumber + ", routeSeq=" + routeSeq + ", visitedDate=" + visitedDate
+				+ ", routeDetail=" + routeDetail + "]";
 	}
 
 }
