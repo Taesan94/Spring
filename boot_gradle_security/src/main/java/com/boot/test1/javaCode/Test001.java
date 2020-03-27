@@ -4,6 +4,14 @@ public class Test001 {
 
 	public static void main(String[] args) {
 		
+		String a = "2월 19일13:00 **음식점 → 북가좌2동,남가좌2동, 홍은2동주민센터 → 15:30 가좌보건지소, 북가좌1동주민센터 → **모텔 숙박 →?18:43 편의점";
+		System.out.println("BEFORE : " + a);
+		a= a.replaceAll("\\?", "");
+		System.out.println("AFTER : " + a);
+		
+		String title = "<div class=\"board-title-text txt\" style=\"max-width: 630px;\">"+ "abcd" + "</div>";
+		System.out.println(" title : " + title );
+		
 		String sido = "sido0101";
 		sido = sido.substring(3,5);
 		System.out.println(" sido : " + sido );

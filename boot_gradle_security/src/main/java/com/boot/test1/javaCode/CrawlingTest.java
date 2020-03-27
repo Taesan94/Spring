@@ -19,7 +19,7 @@ public class CrawlingTest {
 
 	private static void seoul() {
 
-		String url = "http://www.seoul.go.kr/coronaV/coronaStatus.do";
+		String url = "http://news.seoul.go.kr/welfare/archives/513105";
 		Document doc = null ;
 
 		try {
@@ -59,6 +59,7 @@ public class CrawlingTest {
 					
 					info = info.replaceAll("'", "");
 					info = info.replaceAll("‵", "");
+					info = info.replaceAll("\\?", "");
 
 					if(j==0) {
 						String[] infoSplit = info.split(" ");
@@ -89,7 +90,8 @@ public class CrawlingTest {
 
 					PatientsRoute routeVo = new PatientsRoute();
 					String info = patientRoute.get(k).text();
-
+					info = info.replaceAll("\\?", "");
+					
 					routeVo.setSerialNumber(serialNumber);
 					routeVo.setRouteSeq(k+1);
 					routeVo.setRouteDetail(info);
@@ -98,7 +100,7 @@ public class CrawlingTest {
 
 				}//for3
 			}//for 1
-			// show( 20, patientList, routeList);
+			 show( 20, patientList, routeList);
 			
 		}// else
 
